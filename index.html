@@ -193,319 +193,353 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 
 
 
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">"use strict"
 
-const main = () => {    
 
-    const FOLDER_CHARACTER = "Image/Character/"
-    const FOLDER_OBJECT = "Image/Object/"
-    const FOLDER_PLACE = "Image/Place/"
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">
 
-    window.src = {
-        "Clara": FOLDER_CHARACTER + "Clara/Clara.jpg",
-        "Collar": FOLDER_OBJECT + "Collar.jpg",
-        "NakedCooking": FOLDER_CHARACTER + "Clara/nakedCooking.gif",
-        "blowjob": FOLDER_CHARACTER + "Clara/blowjob.gif",
-        "blowjob2": FOLDER_CHARACTER + "Clara/blowjob2.gif",
-        "blowjob3": FOLDER_CHARACTER + "Clara/blowjob3.gif",
-        "nakedWalk": FOLDER_CHARACTER + "Clara/nakedWalk.gif",
-        "nakedWalk2": FOLDER_CHARACTER + "Clara/nakedWalk2.gif",
-        "spanking" : FOLDER_CHARACTER + "Clara/Spanking.gif",
-        "spanking2" : FOLDER_CHARACTER + "Clara/Spanking2.gif",
-        "chastity_bely" : FOLDER_CHARACTER + "Clara/Chastity_Belt.gif",
-        "blank": "Image/Outfit/blank.png",
-        "open_suitcase": FOLDER_OBJECT + "open_suitecase.jpg",
-        "cocaine_bag": FOLDER_OBJECT + "cocaine_bag.jpg",
-        "dildo": FOLDER_OBJECT + "dildo.jpg",
-        "shower": FOLDER_CHARACTER + "Clara/shower.gif",
-        "france_map": FOLDER_OBJECT + "france_map.jpg",
-        "masturbation" : FOLDER_CHARACTER + "Clara/masturbation.gif",
-        "Clara_Bedroom" : FOLDER_PLACE + "Clara_Bedroom.jpg",
-        "Loic_Bedroom": FOLDER_PLACE + "Loic_Bedroom.jpg" ,
-        "Kitchen": FOLDER_PLACE + "Kitchen.jpg" ,
-        "Bathroom": FOLDER_PLACE + "Bathroom.jpg" ,
-        "WC": FOLDER_PLACE + "WC.jpg" ,
-        "Livingroom": FOLDER_PLACE + "Livingroom.jpg" ,
-        "Garden": FOLDER_PLACE + "Garden.jpg" ,
-
+var main = function main() {
+  var FOLDER_CHARACTER = "Image/Character/";
+  var FOLDER_OBJECT = "Image/Object/";
+  var FOLDER_PLACE = "Image/Place/";
+  window.src = {
+    "Clara": FOLDER_CHARACTER + "Clara/Clara.jpg",
+    "Collar": FOLDER_OBJECT + "Collar.jpg",
+    "NakedCooking": FOLDER_CHARACTER + "Clara/nakedCooking.gif",
+    "blowjob": FOLDER_CHARACTER + "Clara/blowjob.gif",
+    "blowjob2": FOLDER_CHARACTER + "Clara/blowjob2.gif",
+    "blowjob3": FOLDER_CHARACTER + "Clara/blowjob3.gif",
+    "nakedWalk": FOLDER_CHARACTER + "Clara/nakedWalk.gif",
+    "nakedWalk2": FOLDER_CHARACTER + "Clara/nakedWalk2.gif",
+    "spanking": FOLDER_CHARACTER + "Clara/Spanking.gif",
+    "spanking2": FOLDER_CHARACTER + "Clara/Spanking2.gif",
+    "chastity_bely": FOLDER_CHARACTER + "Clara/Chastity_Belt.gif",
+    "blank": "Image/Outfit/blank.png",
+    "open_suitcase": FOLDER_OBJECT + "open_suitecase.jpg",
+    "cocaine_bag": FOLDER_OBJECT + "cocaine_bag.jpg",
+    "dildo": FOLDER_OBJECT + "dildo.jpg",
+    "shower": FOLDER_CHARACTER + "Clara/shower.gif",
+    "france_map": FOLDER_OBJECT + "france_map.jpg",
+    "masturbation": FOLDER_CHARACTER + "Clara/masturbation.gif",
+    "Clara_Bedroom": FOLDER_PLACE + "Clara_Bedroom.jpg",
+    "Loic_Bedroom": FOLDER_PLACE + "Loic_Bedroom.jpg",
+    "Kitchen": FOLDER_PLACE + "Kitchen.jpg",
+    "Bathroom": FOLDER_PLACE + "Bathroom.jpg",
+    "WC": FOLDER_PLACE + "WC.jpg",
+    "Livingroom": FOLDER_PLACE + "Livingroom.jpg",
+    "Garden": FOLDER_PLACE + "Garden.jpg"
+  };
+  window.loic = {
+    "name": "Loic",
+    "love": 0,
+    "domination": 1,
+    "pref": {
+      "player": "tomboy",
+      "punish_cocain": false,
+      "punish_masturb": false,
+      "hot_drink": "herbal tea"
+    },
+    "event": {
+      "find_dildo": false,
+      "find_cocain": false
+    },
+    "somethingToSay": ["LoicSay_helpCook", "LoicSay_findAJob"]
+  };
+  window.player = {
+    "name": "Clara",
+    "body": {
+      "hair": {
+        "length": 2,
+        "hairstyle": "tomboy",
+        "color": "black"
+      },
+      "breast": {
+        "size": 1,
+        "milk": 0
+      },
+      "butt": {
+        "size": 2
+      },
+      "size": 190,
+      "magic": 0,
+      "muscle": 3
+    },
+    "clothing": {
+      "hairstyle": "blank",
+      "headwear": "blank",
+      "outfit": "blank",
+      "underwear": "blank",
+      "bra": "blank",
+      "socks": "blank",
+      "shoes": "blank"
     }
-    window.loic = {
-        "name": "Loic",
-        "love": 0,
-        "domination": 1,
-        "pref": {
-            "player": "tomboy",
-            "punish_cocain": false,
-            "punish_masturb": false,
-            "hot_drink": "herbal tea"
-        },
-        "event": {
-            "find_dildo": false,
-            "find_cocain": false
-        },
-        "somethingToSay" : ["LoicSay_helpCook","LoicSay_findAJob"]      
-    }
+  };
+  window.clock = {
+    "day": 6,
+    "daysWeek": 0,
+    "month": 6,
+    "hour": 17,
+    "minute": 0
+  };
+  window.sideBar = {
+    "visibility": "hidden"
+  };
+  var menu = document.getElementById('menu');
+  var outfitWindow = newOutfitWindow(window.src);
+  var clockWindow = document.createElement('span');
+  menu.prepend(outfitWindow);
+  menu.prepend(clockWindow);
 
-    window.player = {
-        "name": "Clara",
-        "body": {
-            "hair": {
-                "length": 2,
-                "hairstyle": "tomboy",
-                "color": "black"
-            },
-            "breast": {
-                "size": 1,
-                "milk": 0
-            },
-            "butt": {
-                "size": 2,
-            },
-            "size": 190,
-            "magic": 0,
-            "muscle": 3
-        },
-        "clothing": {
-            "hairstyle": "blank",
-            "headwear": "blank",
-            "outfit": "blank",
-            "underwear": "blank",
-            "bra": "blank",
-            "socks": "blank",
-            "shoes": "blank"
-        }
+  window.showSideBar = function () {
+    twineVars().sideBar.visibility = "visible";
+  };
 
-    }
+  window.hideSideBar = function () {
+    twineVars().sideBar.visibility = "hidden";
+  };
 
-    window.clock = {
-        "day" : 6,
-        "daysWeek": 0,
-        "month" : 6,
-        "hour" : 17,
-        "minute" : 0,
-    }
+  window.updateWindowClothing = function () {
+    updateWindowClothing(outfitWindow, twineVars().sideBar);
+  };
 
-    window.sideBar = {
-        "visibility" : "hidden"
-    }
+  window.playerGetNaked = playerGetNaked;
+  window.playerWear = playerWear;
 
-    const menu = document.getElementById('menu')
-    const outfitWindow = newOutfitWindow(window.src)
-    const clockWindow = document.createElement('span')
-    menu.prepend(outfitWindow)
-    menu.prepend(clockWindow)
+  window.playerTF = function () {
+    playerTF(twineVars().player);
+  };
 
-    window.showSideBar = () => {twineVars().sideBar.visibility = "visible"}
-    window.hideSideBar = () => {twineVars().sideBar.visibility = "hidden"}
-    window.updateWindowClothing = () => {updateWindowClothing(outfitWindow,twineVars().sideBar)}
-    window.playerGetNaked = playerGetNaked
-    window.playerWear = playerWear
-    window.playerTF = () => {playerTF(twineVars().player)}
-    window.event = (string) => {return event(string)}
-    window.timeGoes = (hour,minute) => {timeGoes(twineVars().clock,hour,minute)} 
-    window.timeSleep = (hour) => {timeSleep(twineVars().clock, hour)}
-    window.pushTF = (newTF) => {pushTF(twineVars().player.tf,newTF)}
-    window.toSpeak = (characterString) => {return toSpeak(twineVars()[characterString])}    
-    window.addTF = (tf) => { addTF(tf,twineVars().player)}  
+  window.event = function (string) {
+    return event(string);
+  };
 
-    $(document).on(':passagerender', () => {
-        window.updateWindowClothing()
-        clockWindow.innerHTML = clockToString(twineVars().clock)
-    })
+  window.timeGoes = function (hour, minute) {
+    timeGoes(twineVars().clock, hour, minute);
+  };
 
-}
+  window.timeSleep = function (hour) {
+    timeSleep(twineVars().clock, hour);
+  };
+
+  window.pushTF = function (newTF) {
+    pushTF(twineVars().player.tf, newTF);
+  };
+
+  window.toSpeak = function (characterString) {
+    return toSpeak(twineVars()[characterString]);
+  };
+
+  window.addTF = function (tf) {
+    addTF(tf, twineVars().player);
+  };
+
+  $(document).on(':passagerender', function () {
+    window.updateWindowClothing();
+    clockWindow.innerHTML = clockToString(twineVars().clock);
+  });
+}; //***************************************************************************************************************************************/
 //***************************************************************************************************************************************/
-//***************************************************************************************************************************************/
-const twineVars = () => { return state.variables }
 
-const toSpeak = (character) => {
-    const string = loic.somethingToSay[0]
-    character.somethingToSay.splice(0,1)
-    return string
- }
 
-//***************************************************************************************************************************************/
+var twineVars = function twineVars() {
+  return state.variables;
+};
+
+var toSpeak = function toSpeak(character) {
+  var string = loic.somethingToSay[0];
+  character.somethingToSay.splice(0, 1);
+  return string;
+}; //***************************************************************************************************************************************/
 //******************************************************Event****************************************************************************/
-const eventCondList = {
-    "haveTF" : () =>{ return (twineVars().player.tf && Object.keys(twineVars().player.tf).length != 0)},
-    "punish_masturb" : () => {return (twineVars().loic.pref.punish_masturb)},
-    "loicWorkDay" : () => {return (twineVars().clock.daysWeek < 5) },
-    "loicShower" : () => {return (twineVars().clock.hour == 6 && twineVars().clock.minute >= 0 && twineVars().clock.minute <= 15)},
-    "loicBreakfast" : () => {return (twineVars().clock.hour == 6 && twineVars().clock.minute >= 0 && twineVars().clock.minute <= 30)},
-    "breakFastTime" : () => {return (twineVars().clock.hour >= 6 && twineVars().clock.hour <= 9)},
-    "LoicSomthingToSay" : () => {return (twineVars().loic.somethingToSay.length != 0)},
-    "PlayerHaveToSetTable" : () => {return (twineVars().loic.somethingToSay.length != 0)}
-}
-
-const event = (string) => {
-    return eventCondList[string]()
-}
 
 
-//***************************************************************************************************************************************/
+var eventCondList = {
+  "haveTF": function haveTF() {
+    return twineVars().player.tf && Object.keys(twineVars().player.tf).length != 0;
+  },
+  "punish_masturb": function punish_masturb() {
+    return twineVars().loic.pref.punish_masturb;
+  },
+  "loicWorkDay": function loicWorkDay() {
+    return twineVars().clock.daysWeek < 5;
+  },
+  "loicShower": function loicShower() {
+    return twineVars().clock.hour == 6 && twineVars().clock.minute >= 0 && twineVars().clock.minute <= 15;
+  },
+  "loicBreakfast": function loicBreakfast() {
+    return twineVars().clock.hour == 6 && twineVars().clock.minute >= 0 && twineVars().clock.minute <= 30;
+  },
+  "breakFastTime": function breakFastTime() {
+    return twineVars().clock.hour >= 6 && twineVars().clock.hour <= 9;
+  },
+  "LoicSomthingToSay": function LoicSomthingToSay() {
+    return twineVars().loic.somethingToSay.length != 0;
+  },
+  "PlayerHaveToSetTable": function PlayerHaveToSetTable() {
+    return twineVars().loic.somethingToSay.length != 0;
+  }
+};
+
+var event = function event(string) {
+  return eventCondList[string]();
+}; //***************************************************************************************************************************************/
 //************************************************TF*************************************************************************************/
-const tfLimit = {
-    "size" : {
-        "min": 100,
-        "max": 250
-    },
-    "breast": {
-        "min": 0,
-        "max": 6
-    },
-    "butt": {
-        "min": 0,
-        "max": 6
-    },
-    "muscle": {
-        "min": 0,
-        "max": 5
-    },
-    "hair": {
-        "min": 0,
-        "max": 3
-    },
-    "magic": {
-        "min": 0,
-        "max": 10
-    }
-}
-
-// "tf": {
-//     "size": 0,
-//     "breast": 0,
-//     "butt": 0,
-//     "muscle": 0,
-//     "hair": 0,
-//     "hairStyle": "tomboy"
-//     "hairColor": "black"
-//     "magic": 0
-// }
-const addTF = (newTF,player) => {
-    if(player.tf && Object.keys(player.tf).length != 0){
-        newTF = getNonNullTF(newTF)
-        for(let i in tf){
-            if(player.tf[i] && typeof(player.tf[i]) == "number"){
-                player.tf[i] += newTF[i]
-            }else{
-                player.tf[i] = newTF[i]
-            }
-        }
-
-    }else{
-        player.tf = getNonNullTF(newTF)
-    }
-}
 
 
-const getNonNullTF = (tf) => {
-    for(let i in tf){
-        if(typeof(tf[i]) == "number" && tf[i] == 0) delete tf[i]
-    }
-    return tf
-}
+var tfLimit = {
+  "size": {
+    "min": 100,
+    "max": 250
+  },
+  "breast": {
+    "min": 0,
+    "max": 6
+  },
+  "butt": {
+    "min": 0,
+    "max": 6
+  },
+  "muscle": {
+    "min": 0,
+    "max": 5
+  },
+  "hair": {
+    "min": 0,
+    "max": 3
+  },
+  "magic": {
+    "min": 0,
+    "max": 10
+  } // "tf": {
+  //     "size": 0,
+  //     "breast": 0,
+  //     "butt": 0,
+  //     "muscle": 0,
+  //     "hair": 0,
+  //     "hairStyle": "tomboy"
+  //     "hairColor": "black"
+  //     "magic": 0
+  // }
 
+};
 
-const playerTF = (player) => {
-    const newTF = player.tf
-    if(newTF.size) sizeTF(player)
-    if(newTF.breast) breastTF(player)
-    if(newTF.butt) buttTF(player)
-    if(newTF.muscle) muscTFle(player)
-    if(newTF.hair) hairLengthTF(player)
-    const playerHair = player.body.hair
-    if(newTF.hairColor)  playerHair.hairstyle = newTF.hairColor 
-    if(newTF.hairStyle) playerHair.color = newTF.hairColor
-    player.clothing.hairstyle = "hair_"+playerHair.hairstyle+"_0"+playerHair.length+"_"+playerHair.color
-    if(newTF.magic) magiTFc(player)
-    player.tf = {}
-}
+var addTF = function addTF(newTF, player) {
+  if (player.tf && Object.keys(player.tf).length != 0) {
+    newTF = getNonNullTF(newTF);
 
-const sizeTF = (player) => {
-    if(player.tf.size = -3){
-        player.body.size -= 20
-        if(player.body.size < tfLimit.size.min)player.body.size = tfLimit.size.min
+    for (var i in tf) {
+      if (player.tf[i] && typeof player.tf[i] == "number") {
+        player.tf[i] += newTF[i];
+      } else {
+        player.tf[i] = newTF[i];
+      }
     }
-    else if(player.tf.size = -2){
-        player.body.size -= 10
-        if(player.body.size < tfLimit.size.min)player.body.size = tfLimit.size.min
-    }
-    else if(player.tf.size = -1){
-        player.body.size -= 5
-        if(player.body.size < tfLimit.size.min)player.body.size = tfLimit.size.min
-    }
-    else if(player.tf.size = 1){
-        player.body.size += 5
-        if(player.body.size > tfLimit.size.max)player.body.size = tfLimit.size.max
-    }
-    else if(player.tf.size = 2){
-        player.body.size += 10
-        if(player.body.size > tfLimit.size.max)player.body.size = tfLimit.size.max
-    }
-    else if(player.tf.size = 3){
-        player.body.size += 20
-        if(player.body.size > tfLimit.size.max)player.body.size = tfLimit.size.max
-    }
-}
+  } else {
+    player.tf = getNonNullTF(newTF);
+  }
+};
 
-const breastTF = (player) => {
-    player.body.breast += player.tf.breast 
-    if(player.tf.breast > 0 ){
-        if(player.body.breast > tfLimit.breast.max) player.body.breast = tfLimit.breast.max
-    }
-    else if(player.body.breast < tfLimit.breast.min) player.body.breast = tfLimit.breast.min
-}
+var getNonNullTF = function getNonNullTF(tf) {
+  for (var indexTF in tf) {
+    if (typeof tf[indexTF] == "number" && tf[indexTF] == 0) delete tf[indexTF];
+  }
 
-const buttTF = (player) => {
-    player.body.butt.size += player.tf.butt 
-    if(player.tf.butt > 0 ){
-        if(player.body.butt.size > tfLimit.butt.max) player.body.butt.size = tfLimit.butt.max
-    }
-    else if(player.body.butt.size < tfLimit.butt.min) player.body.butt.size = tfLimit.butt.min
-}
+  return tf;
+};
 
-const muscleTF = (player) => {
-    player.body.muscle += player.tf.muscle 
-    if(player.tf.muscle > 0 ){
-        if(player.body.muscle > tfLimit.muscle.max) player.body.muscle = tfLimit.muscle.max
-    }
-    else if(player.body.muscle < tfLimit.muscle.min) player.body.muscle = tfLimit.muscle.min
-}
+var playerTF = function playerTF(player) {
+  var newTF = player.tf;
+  if (newTF.size) sizeTF(player);
+  if (newTF.breast) breastTF(player);
+  if (newTF.butt) buttTF(player);
+  if (newTF.muscle) muscTFle(player);
+  if (newTF.hair) hairLengthTF(player);
+  var playerHair = player.body.hair;
+  if (newTF.hairColor) playerHair.hairstyle = newTF.hairColor;
+  if (newTF.hairStyle) playerHair.color = newTF.hairColor;
+  player.clothing.hairstyle = "hair_" + playerHair.hairstyle + "_0" + playerHair.length + "_" + playerHair.color;
+  if (newTF.magic) magiTFc(player);
+  player.tf = {};
+};
 
-const hairLengthTF = (player) => {
-    player.body.hair.length += player.tf.hair 
-    if(player.tf.hair > 0 ){
-        if(player.body.hair.length > tfLimit.hair.max) player.body.hair.length = tfLimit.hair.max
-    }
-    else if(player.body.hair.length < tfLimit.hair.min) player.body.hair.length = tfLimit.hair.min
-}
+var sizeTF = function sizeTF(player) {
+  if (player.tf.size = -3) {
+    player.body.size -= 20;
+    if (player.body.size < tfLimit.size.min) player.body.size = tfLimit.size.min;
+  } else if (player.tf.size = -2) {
+    player.body.size -= 10;
+    if (player.body.size < tfLimit.size.min) player.body.size = tfLimit.size.min;
+  } else if (player.tf.size = -1) {
+    player.body.size -= 5;
+    if (player.body.size < tfLimit.size.min) player.body.size = tfLimit.size.min;
+  } else if (player.tf.size = 1) {
+    player.body.size += 5;
+    if (player.body.size > tfLimit.size.max) player.body.size = tfLimit.size.max;
+  } else if (player.tf.size = 2) {
+    player.body.size += 10;
+    if (player.body.size > tfLimit.size.max) player.body.size = tfLimit.size.max;
+  } else if (player.tf.size = 3) {
+    player.body.size += 20;
+    if (player.body.size > tfLimit.size.max) player.body.size = tfLimit.size.max;
+  }
+};
 
-const magicTF = (player) => {
-    player.body.magic += player.tf.magic 
-    if(player.tf.magic > 0 ){
-        if(player.body.magic > tfLimit.magic.max) {
-            player.body.magic = tfLimit.magic.max
-            player.tf.magic = 0
-        }
-    }
-    else if(player.body.magic < tfLimit.magic.min) {
-        player.body.magic = tfLimit.magic.min
-        player.tf.magic = 0
-    }
-}
+var breastTF = function breastTF(player) {
+  player.body.breast += player.tf.breast;
 
-const pushTF = (claraTF,newTF) => {
-    for(let tf in newTF){
-        claraTF[tf] += newTF[tf]
-    }
-}
+  if (player.tf.breast > 0) {
+    if (player.body.breast > tfLimit.breast.max) player.body.breast = tfLimit.breast.max;
+  } else if (player.body.breast < tfLimit.breast.min) player.body.breast = tfLimit.breast.min;
+};
 
-//***************************************************************************************************************************************/
+var buttTF = function buttTF(player) {
+  player.body.butt.size += player.tf.butt;
+
+  if (player.tf.butt > 0) {
+    if (player.body.butt.size > tfLimit.butt.max) player.body.butt.size = tfLimit.butt.max;
+  } else if (player.body.butt.size < tfLimit.butt.min) player.body.butt.size = tfLimit.butt.min;
+};
+
+var muscleTF = function muscleTF(player) {
+  player.body.muscle += player.tf.muscle;
+
+  if (player.tf.muscle > 0) {
+    if (player.body.muscle > tfLimit.muscle.max) player.body.muscle = tfLimit.muscle.max;
+  } else if (player.body.muscle < tfLimit.muscle.min) player.body.muscle = tfLimit.muscle.min;
+};
+
+var hairLengthTF = function hairLengthTF(player) {
+  player.body.hair.length += player.tf.hair;
+
+  if (player.tf.hair > 0) {
+    if (player.body.hair.length > tfLimit.hair.max) player.body.hair.length = tfLimit.hair.max;
+  } else if (player.body.hair.length < tfLimit.hair.min) player.body.hair.length = tfLimit.hair.min;
+};
+
+var magicTF = function magicTF(player) {
+  player.body.magic += player.tf.magic;
+
+  if (player.tf.magic > 0) {
+    if (player.body.magic > tfLimit.magic.max) {
+      player.body.magic = tfLimit.magic.max;
+      player.tf.magic = 0;
+    }
+  } else if (player.body.magic < tfLimit.magic.min) {
+    player.body.magic = tfLimit.magic.min;
+    player.tf.magic = 0;
+  }
+};
+
+var pushTF = function pushTF(claraTF, newTF) {
+  for (var _tf in newTF) {
+    claraTF[_tf] += newTF[_tf];
+  }
+}; //***************************************************************************************************************************************/
 //*******************************************Clock***************************************************************************************/
-const dayList = ["Monday","Thuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-const monthList = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-const daysMonth = [31,28,31,30,31,30,31,31,30,31,30,31]
 
+
+var dayList = ["Monday", "Thuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+var monthList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var daysMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; 
 // clock = {
 //     "day" : 6,
 //     "daysWeek": 0,
@@ -514,146 +548,141 @@ const daysMonth = [31,28,31,30,31,30,31,31,30,31,30,31]
 //     "minute" : 0,
 // }
 
-const nextDay = (clock) => {
-    clock.day++
-    if(clock.day >= daysMonth[clock.month]){
-        clock.month++
-        clock.day = 1
-    }
-    clock.daysWeek++ 
-    if(clock.daysWeek >= 7) clock.daysWeek = 0   
-}
+var nextDay = function nextDay(clock) {
+  clock.day++;
 
-const timeGoes = (clock,hour,minute) => {
-    clock.minute += minute
-    while(clock.minute >= 60){
-        clock.minute -= 60
-        clock.hour ++
-    }  
-    clock.hour += hour
-    while(clock.hour >= 24){
-        clock.hour -= 24
-        nextDay(clock)
-    }
-}
+  if (clock.day >= daysMonth[clock.month]) {
+    clock.month++;
+    clock.day = 1;
+  }
 
-const timeSleep = (clock,hour) => {
-    if(clock.hour >= hour ) nextDay(clock)
-    clock.hour = hour
-    clock.minute = 0
-}
+  clock.daysWeek++;
+  if (clock.daysWeek >= 7) clock.daysWeek = 0;
+};
 
-const clockToString = (clock) => {
-    const minute = (clock.minute < 10) ? ("0" + clock.minute) : clock.minute
-    const hour = (clock.hour < 10) ? ("0" + clock.hour) : clock.hour
-    return monthList[clock.month] + " " + clock.day + ", " + dayList[clock.daysWeek] + " " + hour + ":" + minute
-}
-//***************************************************************************************************************************************/
+var timeGoes = function timeGoes(clock, hour, minute) {
+  clock.minute += minute;
+
+  while (clock.minute >= 60) {
+    clock.minute -= 60;
+    clock.hour++;
+  }
+
+  clock.hour += hour;
+
+  while (clock.hour >= 24) {
+    clock.hour -= 24;
+    nextDay(clock);
+  }
+};
+
+var timeSleep = function timeSleep(clock, hour) {
+  if (clock.hour >= hour) nextDay(clock);
+  clock.hour = hour;
+  clock.minute = 0;
+};
+
+var clockToString = function clockToString(clock) {
+  var minute = clock.minute < 10 ? "0" + clock.minute : clock.minute;
+  var hour = clock.hour < 10 ? "0" + clock.hour : clock.hour;
+  return monthList[clock.month] + " " + clock.day + ", " + dayList[clock.daysWeek] + " " + hour + ":" + minute;
+}; //***************************************************************************************************************************************/
 //*************************************************Clothing******************************************************************************/
-const updateWindowClothing = (outfitWindow,sideBar) => {
-    outfitWindow.style.visibility = sideBar.visibility
-    const clothing = twineVars().player.clothing
-    outfitWindow.case1.changeImgTo(clothing.hairstyle)
-    outfitWindow.case2.changeImgTo(clothing.headwear)
-    outfitWindow.case3.changeImgTo(clothing.outfit)
-    outfitWindow.case4.changeImgTo(clothing.bra)
-    outfitWindow.case5.changeImgTo(clothing.underwear)
-    outfitWindow.case7.changeImgTo(clothing.shoes)
-    outfitWindow.case8.changeImgTo(clothing.socks)
-}
 
-const playerGetNaked = () => {
-    twineVars().player.clothing = {
-        "hairstyle": twineVars().player.clothing.hairstyle,
-        "headwear": "blank",
-        "outfit": "blank",
-        "underwear": "blank",
-        "bra": "blank",
-        "socks": "blank",
-        "shoes": "blank"
-    }
-}
 
-const playerWear = (Newclothes) => {
-    const clothing = twineVars().player.clothing
-    twineVars().player.clothing = {
-        "hairstyle": Newclothes.hairstyle ? Newclothes.hairstyle : clothing.hairstyle,
-        "headwear": Newclothes.headwear ? Newclothes.headwear : clothing.headwear,
-        "outfit": Newclothes.outfit ? Newclothes.outfit : clothing.outfit,
-        "underwear": Newclothes.underwear ? Newclothes.underwear : clothing.underwear,
-        "bra": Newclothes.bra ? Newclothes.bra : clothing.bra,
-        "socks": Newclothes.socks ? Newclothes.socks : clothing.socks,
-        "shoes": Newclothes.shoes ? Newclothes.shoes : clothing.shoes
-    }
-}
-//***************************************************************************************************************************************/
+var updateWindowClothing = function updateWindowClothing(outfitWindow, sideBar) {
+  outfitWindow.style.visibility = sideBar.visibility;
+  var clothing = twineVars().player.clothing;
+  outfitWindow.case1.changeImgTo(clothing.hairstyle);
+  outfitWindow.case2.changeImgTo(clothing.headwear);
+  outfitWindow.case3.changeImgTo(clothing.outfit);
+  outfitWindow.case4.changeImgTo(clothing.bra);
+  outfitWindow.case5.changeImgTo(clothing.underwear);
+  outfitWindow.case7.changeImgTo(clothing.shoes);
+  outfitWindow.case8.changeImgTo(clothing.socks);
+};
+
+var playerGetNaked = function playerGetNaked() {
+  twineVars().player.clothing = {
+    "hairstyle": twineVars().player.clothing.hairstyle,
+    "headwear": "blank",
+    "outfit": "blank",
+    "underwear": "blank",
+    "bra": "blank",
+    "socks": "blank",
+    "shoes": "blank"
+  };
+};
+
+var playerWear = function playerWear(Newclothes) {
+  var clothing = twineVars().player.clothing;
+  twineVars().player.clothing = {
+    "hairstyle": Newclothes.hairstyle ? Newclothes.hairstyle : clothing.hairstyle,
+    "headwear": Newclothes.headwear ? Newclothes.headwear : clothing.headwear,
+    "outfit": Newclothes.outfit ? Newclothes.outfit : clothing.outfit,
+    "underwear": Newclothes.underwear ? Newclothes.underwear : clothing.underwear,
+    "bra": Newclothes.bra ? Newclothes.bra : clothing.bra,
+    "socks": Newclothes.socks ? Newclothes.socks : clothing.socks,
+    "shoes": Newclothes.shoes ? Newclothes.shoes : clothing.shoes
+  };
+}; //***************************************************************************************************************************************/
 //****************************************************Side Bar***************************************************************************/
-const newCase = (src) => {
-    const ourCase = document.createElement('img')
-    ourCase.src = src.blank
-    ourCase.className = "clothing_image_sidebar_11"
-
-    ourCase.changeImgTo = (string) => {
-        if (string == "blank") ourCase.src = src.blank
-        else ourCase.src = "Image/Outfit/" + string + ".jpg"
-    }
-    return ourCase
-}
-
-const newOutfitWindow = (src) => {
-    const outfitWindow = document.createElement('div')
-    outfitWindow.className = "outfit_window"
-    const clothes = document.createElement('div')
-    const outfitImages = document.createElement('div')
-    outfitImages.className = "outfitImages"
-    const case1 = newCase(src)
-    const case2 = newCase(src)
-    const br1 = document.createElement('br')
-    const case3 = newCase(src)
-    const case4 = newCase(src)
-    const br2 = document.createElement('br')
-    const case5 = newCase(src)
-    const case6 = newCase(src)
-    const br3 = document.createElement('br')
-    const case7 = newCase(src)
-    const case8 = newCase(src)
-
-    outfitWindow.appendChild(clothes)
-    clothes.appendChild(outfitImages)
-    outfitImages.appendChild(case1)
-    outfitImages.appendChild(case2)
-    outfitImages.appendChild(br1)
-    outfitImages.appendChild(case3)
-    outfitImages.appendChild(case4)
-    outfitImages.appendChild(br2)
-    outfitImages.appendChild(case5)
-    outfitImages.appendChild(case6)
-    outfitImages.appendChild(br3)
-    outfitImages.appendChild(case7)
-    outfitImages.appendChild(case8)
-
-    outfitWindow.case1 = case1
-    outfitWindow.case2 = case2
-    outfitWindow.case3 = case3
-    outfitWindow.case4 = case4
-    outfitWindow.case5 = case5
-    outfitWindow.case6 = case6
-    outfitWindow.case7 = case7
-    outfitWindow.case8 = case8
-
-    return outfitWindow
-}
 
 
-main()
+var newCase = function newCase(src) {
+  var ourCase = document.createElement('img');
+  ourCase.src = src.blank;
+  ourCase.className = "clothing_image_sidebar_11";
 
+  ourCase.changeImgTo = function (string) {
+    if (string == "blank") ourCase.src = src.blank;else ourCase.src = "Image/Outfit/" + string + ".jpg";
+  };
 
+  return ourCase;
+};
 
+var newOutfitWindow = function newOutfitWindow(src) {
+  var outfitWindow = document.createElement('div');
+  outfitWindow.className = "outfit_window";
+  var clothes = document.createElement('div');
+  var outfitImages = document.createElement('div');
+  outfitImages.className = "outfitImages";
+  var case1 = newCase(src);
+  var case2 = newCase(src);
+  var br1 = document.createElement('br');
+  var case3 = newCase(src);
+  var case4 = newCase(src);
+  var br2 = document.createElement('br');
+  var case5 = newCase(src);
+  var case6 = newCase(src);
+  var br3 = document.createElement('br');
+  var case7 = newCase(src);
+  var case8 = newCase(src);
+  outfitWindow.appendChild(clothes);
+  clothes.appendChild(outfitImages);
+  outfitImages.appendChild(case1);
+  outfitImages.appendChild(case2);
+  outfitImages.appendChild(br1);
+  outfitImages.appendChild(case3);
+  outfitImages.appendChild(case4);
+  outfitImages.appendChild(br2);
+  outfitImages.appendChild(case5);
+  outfitImages.appendChild(case6);
+  outfitImages.appendChild(br3);
+  outfitImages.appendChild(case7);
+  outfitImages.appendChild(case8);
+  outfitWindow.case1 = case1;
+  outfitWindow.case2 = case2;
+  outfitWindow.case3 = case3;
+  outfitWindow.case4 = case4;
+  outfitWindow.case5 = case5;
+  outfitWindow.case6 = case6;
+  outfitWindow.case7 = case7;
+  outfitWindow.case8 = case8;
+  return outfitWindow;
+};
 
-
-
-
-</script><tw-passagedata pid="1" name="intro" tags="" position="27,339" size="100,100">This story contains graphic descriptions of sex between adults, and is therefore not suitable for people under the age of 18.
+main();</script><tw-passagedata pid="1" name="intro" tags="" position="27,339" size="100,100">This story contains graphic descriptions of sex between adults, and is therefore not suitable for people under the age of 18.
 
 If you blablabla... 
 
@@ -814,7 +843,7 @@ Qu&#39;est il arrivé a notre corp ?
 Comment est philippe ?</tw-passagedata><tw-passagedata pid="19" name="Lisa Dialogue" tags="" position="946,2694" size="100,100">Qu&#39;est il arrivé a notre corp ?
 Comment est Philippe ?</tw-passagedata><tw-passagedata pid="20" name="Passage sans titre 5" tags="" position="813,2514" size="100,100">Il vous attache </tw-passagedata><tw-passagedata pid="21" name="Passage sans titre 6" tags="" position="690,2796" size="100,100">Philippe arriva dans cuisine.
 
-&quot;C&#39;est l&#39;heure de la traite les filles&quot;</tw-passagedata><tw-passagedata pid="22" name="chap1_p3_suitcase" tags="" position="347,73" size="100,100">You search the affairs of your niece. As you expect, there is not much that is a little feminine. Boxers as a reminder, pants and t-shit. No skirt or ribbon or any of some kind of feminine accessory.
+&quot;C&#39;est l&#39;heure de la traite les filles&quot;</tw-passagedata><tw-passagedata pid="22" name="chap1_p3_suitcase" tags="" position="357,14" size="100,100">You search the affairs of your niece. As you expect, there is not much that is a little feminine. Boxers as a reminder, pants and t-shit. No skirt or ribbon or any of some kind of feminine accessory.
 
 &lt;&lt;display chap1_p3_suitcase_choice&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="chap1_p3_tea" tags="" position="422,189" size="100,100">&lt;&lt;set $prep_hot_D = true&gt;&gt;You prepare a $loic.pref.hot_drink for your niece.
 
@@ -911,7 +940,7 @@ With a content sigh: </tw-passagedata><tw-passagedata pid="33" name="masturbatio
 &lt;&lt;if $random == 1&gt;&gt;&lt;&lt;display masturbation_1&gt;&gt;&lt;&lt;endif&gt;&gt;
 
 [[you fall asleep|sleep_post_masturbation]] </tw-passagedata><tw-passagedata pid="34" name="sleep_post_masturbation" tags="" position="405,1200" size="100,100">&lt;&lt;display sleep&gt;&gt;
-&lt;&lt;if event(&quot;punish_masturb&quot;)&gt;&gt;[[Morning|morning_punish_masturbation][timeSleep(8)]]&lt;&lt;else&gt;&gt;[[Morning|Clara Bedroom][timeSleep(8)]]&lt;&lt;endif&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="morning_punish_masturbation" tags="" position="543,1199" size="100,100">&lt;&lt;if !$mastPunish&gt;&gt; &lt;&lt;display MastPunish1&gt;&gt;
+&lt;&lt;if event(&quot;punish_masturb&quot;)&gt;&gt;[[Morning|morning_punish_masturbation][timeSleep(6)]]&lt;&lt;else&gt;&gt;[[Morning|Clara Bedroom][timeSleep(6)]]&lt;&lt;endif&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="morning_punish_masturbation" tags="" position="543,1199" size="100,100">&lt;&lt;if !$mastPunish&gt;&gt; &lt;&lt;display MastPunish1&gt;&gt;
 &lt;&lt;elseif $mastPunish == 1&gt;&gt; &lt;&lt;display MastPunish2&gt;&gt;
 &lt;&lt;elseif $mastPunish == 2&gt;&gt; &lt;&lt;display MastPunish3&gt;&gt;
 &lt;&lt;endif&gt;&gt;
@@ -989,7 +1018,7 @@ Loic work from Monday to Friday and eat at his place of work. So no need to cook
 
 What he says makes you think ...
 
-(You now have the posibility to look for a job.)</tw-passagedata></tw-storydata></div>
+(You now have the posibility to look for a job.)</tw-passagedata><tw-passagedata pid="53" name="Secrétaire" tags="" position="641,1613.5" size="100,100">Premier jour de travail. Loic vous a acheté une tenue profetionnel. </tw-passagedata></tw-storydata></div>
 	<script id="script-sugarcube" type="text/javascript">
 	/*! SugarCube JS */
 	if(document.documentElement.getAttribute("data-init")==="loading"){!function(window,document,jQuery,undefined){"use strict";function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function _toConsumableArray(e){if(Array.isArray(e)){for(var t=0,r=Array(e.length);t<e.length;t++)r[t]=e[t];return r}return Array.from(e)}var _createClass=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),_slicedToArray=function(){function e(e,t){var r=[],n=!0,a=!1,i=undefined;try{for(var o,s=e[Symbol.iterator]();!(n=(o=s.next()).done)&&(r.push(o.value),!t||r.length!==t);n=!0);}catch(e){a=!0,i=e}finally{try{!n&&s.return&&s.return()}finally{if(a)throw i}}return r}return function(t,r){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return e(t,r);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},Alert=function(){function e(e,t,r,n){var a="fatal"===e,i="Apologies! "+(a?"A fatal":"An")+" error has occurred.";i+=a?" Aborting.":" You may be able to continue, but some parts may not work properly.",null==t&&null==r||(i+="\n\nError",null!=t&&(i+=" ["+t+"]"),i+=null!=r?": "+r.replace(/^(?:(?:uncaught\s+(?:exception:\s+)?)?error:\s+)+/i,"")+".":": unknown error."),"object"===("undefined"==typeof n?"undefined":_typeof(n))&&n.stack&&(i+="\n\nStack Trace:\n"+n.stack),window.alert(i)}function t(t,r,n){e(null,t,r,n)}function r(t,r,n){e("fatal",t,r,n)}return function(e){window.onerror=function(n,a,i,o,s){"complete"===document.readyState?t(null,n,s):(r(null,n,s),window.onerror=e,"function"==typeof window.onerror&&window.onerror.apply(this,arguments))}}(window.onerror),Object.freeze(Object.defineProperties({},{error:{value:t},fatal:{value:r}}))}();!function(){function e(e,t){var a=String(e);switch(t){case"start":return a&&r.test(a)?a.replace(r,""):a;case"end":return a&&n.test(a)?a.replace(n,""):a;default:throw new Error('_trimFrom called with incorrect where parameter value: "'+t+'"')}}function t(e,t){var r=Number.parseInt(e,10)||0;if(r<1)return"";var n="undefined"==typeof t?"":String(t);for(""===n&&(n=" ");n.length<r;){var a=n.length,i=r-a;n+=a>i?n.slice(0,i):n}return n.length>r&&(n=n.slice(0,r)),n}var r=/^[\s\u00A0\uFEFF][\s\u00A0\uFEFF]*/,n=/[\s\u00A0\uFEFF][\s\u00A0\uFEFF]*$/;Array.prototype.includes||Object.defineProperty(Array.prototype,"includes",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.includes called on null or undefined");if(0===arguments.length)return!1;var e=this.length>>>0;if(0===e)return!1;var t=arguments[0],r=Number(arguments[1])||0;for(r<0&&(r=Math.max(0,e+r));r<e;++r){var n=this[r];if(t===n||t!==t&&n!==n)return!0}return!1}}),String.prototype.padStart||Object.defineProperty(String.prototype,"padStart",{configurable:!0,writable:!0,value:function(e,r){if(null==this)throw new TypeError("String.prototype.padStart called on null or undefined");var n=String(this),a=n.length,i=Number.parseInt(e,10);return i<=a?n:t(i-a,r)+n}}),String.prototype.padEnd||Object.defineProperty(String.prototype,"padEnd",{configurable:!0,writable:!0,value:function(e,r){if(null==this)throw new TypeError("String.prototype.padEnd called on null or undefined");var n=String(this),a=n.length,i=Number.parseInt(e,10);return i<=a?n:n+t(i-a,r)}}),String.prototype.trimStart||Object.defineProperty(String.prototype,"trimStart",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.trimStart called on null or undefined");return e(this,"start")}}),String.prototype.trimLeft||Object.defineProperty(String.prototype,"trimLeft",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.trimLeft called on null or undefined");return e(this,"start")}}),String.prototype.trimEnd||Object.defineProperty(String.prototype,"trimEnd",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.trimEnd called on null or undefined");return e(this,"end")}}),String.prototype.trimRight||Object.defineProperty(String.prototype,"trimRight",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.trimRight called on null or undefined");return e(this,"end")}})}(),function(){function _random(){var e=void 0,t=void 0;switch(arguments.length){case 0:throw new Error("_random called with insufficient parameters");case 1:e=0,t=arguments[0];break;default:e=arguments[0],t=arguments[1]}if(e>t){var r=[t,e];e=r[0],t=r[1]}return Math.floor(_nativeMathRandom()*(t-e+1))+e}function _randomIndex(e,t){var r=void 0,n=void 0;switch(t.length){case 1:r=0,n=e-1;break;case 2:r=0,n=Math.trunc(t[1]);break;default:r=Math.trunc(t[1]),n=Math.trunc(t[2])}return Number.isNaN(r)?r=0:!Number.isFinite(r)||r>=e?r=e-1:r<0&&(r=e+r,r<0&&(r=0)),Number.isNaN(n)?n=0:!Number.isFinite(n)||n>=e?n=e-1:n<0&&(n=e+n,n<0&&(n=e-1)),_random(r,n)}function _getCodePointStartAndEnd(e,t){var r=e.charCodeAt(t);if(Number.isNaN(r))return{char:"",start:-1,end:-1};if(r<55296||r>57343)return{char:e.charAt(t),start:t,end:t};if(r>=55296&&r<=56319){var n=t+1;if(n>=e.length)throw new Error("high surrogate without trailing low surrogate");var a=e.charCodeAt(n);if(a<56320||a>57343)throw new Error("high surrogate without trailing low surrogate");return{char:e.charAt(t)+e.charAt(n),start:t,end:n}}if(0===t)throw new Error("low surrogate without leading high surrogate");var i=t-1,o=e.charCodeAt(i);if(o<55296||o>56319)throw new Error("low surrogate without leading high surrogate");return{char:e.charAt(i)+e.charAt(t),start:i,end:t}}var _nativeMathRandom=Math.random;Object.defineProperty(Array,"random",{configurable:!0,writable:!0,value:function(e){if(null==e||"object"!==("undefined"==typeof e?"undefined":_typeof(e))||!Object.prototype.hasOwnProperty.call(e,"length"))throw new TypeError("Array.random array parameter must be an array or array-lke object");var t=e.length>>>0;if(0!==t){var r=0===arguments.length?_random(0,t-1):_randomIndex(t,Array.prototype.slice.call(arguments,1));return e[r]}}}),Object.defineProperty(Array.prototype,"concatUnique",{configurable:!0,writable:!0,value:function e(){if(null==this)throw new TypeError("Array.prototype.concatUnique called on null or undefined");var t=Array.from(this);if(0===arguments.length)return t;var r=Array.prototype.reduce.call(arguments,function(e,t){return e.concat(t)},[]),n=r.length;if(0===n)return t;for(var a=Array.prototype.indexOf,i=Array.prototype.push,o=0;o<n;++o){var e=r[o];a.call(t,e)===-1&&i.call(t,e)}return t}}),Object.defineProperty(Array.prototype,"count",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.count called on null or undefined");for(var e=Array.prototype.indexOf,t=arguments[0],r=Number(arguments[1])||0,n=0;(r=e.call(this,t,r))!==-1;)++n,++r;return n}}),Object.defineProperty(Array.prototype,"delete",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.delete called on null or undefined");if(0===arguments.length)return[];var e=this.length>>>0;if(0===e)return[];for(var t=Array.prototype.indexOf,r=Array.prototype.push,n=Array.prototype.splice,a=Array.prototype.concat.apply([],arguments),i=[],o=0,s=a.length;o<s;++o)for(var u=a[o],l=0;(l=t.call(this,u,l))!==-1;)r.apply(i,n.call(this,l,1));return i}}),Object.defineProperty(Array.prototype,"deleteAt",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.deleteAt called on null or undefined");if(0===arguments.length)return[];var e=this.length>>>0;if(0===e)return[];for(var t=Array.prototype.splice,r=[].concat(_toConsumableArray(new Set(Array.prototype.concat.apply([],arguments).map(function(t){return t<0?Math.max(0,e+t):t})).values())),n=[].concat(_toConsumableArray(r)).sort(function(e,t){return t-e}),a=[],i=0,o=r.length;i<o;++i)a[i]=this[r[i]];for(var s=0,u=n.length;s<u;++s)t.call(this,n[s],1);return a}}),Object.defineProperty(Array.prototype,"flatten",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.flatten called on null or undefined");return Array.prototype.reduce.call(this,function(e,t){return e.concat(Array.isArray(t)?t.flatten():t)},[])}}),Object.defineProperty(Array.prototype,"includesAll",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.includesAll called on null or undefined");if(1===arguments.length)return Array.isArray(arguments[0])?Array.prototype.includesAll.apply(this,arguments[0]):Array.prototype.includes.apply(this,arguments);for(var e=0,t=arguments.length;e<t;++e)if(!Array.prototype.some.call(this,function(e){return e===this.val||e!==e&&this.val!==this.val},{val:arguments[e]}))return!1;return!0}}),Object.defineProperty(Array.prototype,"includesAny",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.includesAny called on null or undefined");if(1===arguments.length)return Array.isArray(arguments[0])?Array.prototype.includesAny.apply(this,arguments[0]):Array.prototype.includes.apply(this,arguments);for(var e=0,t=arguments.length;e<t;++e)if(Array.prototype.some.call(this,function(e){return e===this.val||e!==e&&this.val!==this.val},{val:arguments[e]}))return!0;return!1}}),Object.defineProperty(Array.prototype,"pluck",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.pluck called on null or undefined");var e=this.length>>>0;if(0!==e){var t=0===arguments.length?_random(0,e-1):_randomIndex(e,[].concat(Array.prototype.slice.call(arguments)));return Array.prototype.splice.call(this,t,1)[0]}}}),Object.defineProperty(Array.prototype,"pluckMany",{configurable:!0,writable:!0,value:function(e){if(null==this)throw new TypeError("Array.prototype.pluckMany called on null or undefined");var t=this.length>>>0;if(0===t)return[];var r=Math.trunc(e);if(!Number.isInteger(r))throw new Error("Array.prototype.pluckMany want parameter must be an integer");if(r<1)return[];r>t&&(r=t);var n=Array.prototype.splice,a=[],i=t-1;do a.push(n.call(this,_random(0,i--),1)[0]);while(a.length<r);return a}}),Object.defineProperty(Array.prototype,"pushUnique",{configurable:!0,writable:!0,value:function e(){if(null==this)throw new TypeError("Array.prototype.pushUnique called on null or undefined");var t=arguments.length;if(0===t)return this.length>>>0;for(var r=Array.prototype.indexOf,n=Array.prototype.push,a=0;a<t;++a){var e=arguments[a];r.call(this,e)===-1&&n.call(this,e)}return this.length>>>0}}),Object.defineProperty(Array.prototype,"random",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.random called on null or undefined");var e=this.length>>>0;if(0!==e){var t=0===arguments.length?_random(0,e-1):_randomIndex(e,[].concat(Array.prototype.slice.call(arguments)));return this[t]}}}),Object.defineProperty(Array.prototype,"randomMany",{configurable:!0,writable:!0,value:function(e){if(null==this)throw new TypeError("Array.prototype.randomMany called on null or undefined");var t=this.length>>>0;if(0===t)return[];var r=Math.trunc(e);if(!Number.isInteger(r))throw new Error("Array.prototype.randomMany want parameter must be an integer");if(r<1)return[];r>t&&(r=t);var n=new Map,a=[],i=t-1;do{var o=void 0;do o=_random(0,i);while(n.has(o));n.set(o,!0),a.push(this[o])}while(a.length<r);return a}}),Object.defineProperty(Array.prototype,"shuffle",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.shuffle called on null or undefined");var e=this.length>>>0;if(0===e)return this;for(var t=e-1;t>0;--t){var r=Math.floor(_nativeMathRandom()*(t+1));if(t!==r){var n=this[t];this[t]=this[r],this[r]=n}}return this}}),Object.defineProperty(Array.prototype,"unshiftUnique",{configurable:!0,writable:!0,value:function e(){if(null==this)throw new TypeError("Array.prototype.unshiftUnique called on null or undefined");var t=arguments.length;if(0===t)return this.length>>>0;for(var r=Array.prototype.indexOf,n=Array.prototype.unshift,a=0;a<t;++a){var e=arguments[a];r.call(this,e)===-1&&n.call(this,e)}return this.length>>>0}}),Object.defineProperty(Function.prototype,"partial",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Function.prototype.partial called on null or undefined");var e=Array.prototype.slice,t=this,r=e.call(arguments,0);return function(){for(var n=[],a=0,i=0;i<r.length;++i)n.push(r[i]===undefined?arguments[a++]:r[i]);return t.apply(this,n.concat(e.call(arguments,a)))}}}),Object.defineProperty(Math,"clamp",{configurable:!0,writable:!0,value:function e(t,r,n){var e=Number(t);return Number.isNaN(e)?NaN:e.clamp(r,n)}}),Object.defineProperty(Math,"easeInOut",{configurable:!0,writable:!0,value:function(e){return 1-(Math.cos(Number(e)*Math.PI)+1)/2}}),Object.defineProperty(Number.prototype,"clamp",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Number.prototype.clamp called on null or undefined");if(2!==arguments.length)throw new Error("Number.prototype.clamp called with an incorrect number of parameters");var e=Number(arguments[0]),t=Number(arguments[1]);if(e>t){var r=[t,e];e=r[0],t=r[1]}return Math.min(Math.max(this,e),t)}}),RegExp.escape||!function(){var e=/[\\^$*+?.()|[\]{}]/g,t=new RegExp(e.source);Object.defineProperty(RegExp,"escape",{configurable:!0,writable:!0,value:function(r){var n=String(r);return n&&t.test(n)?n.replace(e,"\\$&"):n}})}(),function(){var e=/{(\d+)(?:,([+-]?\d+))?}/g,t=new RegExp(e.source);Object.defineProperty(String,"format",{configurable:!0,writable:!0,value:function(r){function n(e,t,r){if(!t)return e;var n=Math.abs(t)-e.length;if(n<1)return e;var a=String(r).repeat(n);return t<0?e+a:a+e}if(arguments.length<2)return 0===arguments.length?"":r;var a=2===arguments.length&&Array.isArray(arguments[1])?[].concat(_toConsumableArray(arguments[1])):Array.prototype.slice.call(arguments,1);return 0===a.length?r:t.test(r)?(e.lastIndex=0,r.replace(e,function(e,t,r){var i=a[t];if(null==i)return"";for(;"function"==typeof i;)i=i();switch("undefined"==typeof i?"undefined":_typeof(i)){case"string":break;case"object":i=JSON.stringify(i);break;default:i=String(i)}return n(i,r?Number.parseInt(r,10):0," ")})):r}})}(),Object.defineProperty(String.prototype,"contains",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.contains called on null or undefined");return String.prototype.indexOf.apply(this,arguments)!==-1}}),Object.defineProperty(String.prototype,"count",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.count called on null or undefined");var e=String(arguments[0]||"");if(""===e)return 0;for(var t=String.prototype.indexOf,r=e.length,n=Number(arguments[1])||0,a=0;(n=t.call(this,e,n))!==-1;)++a,n+=r;return a}}),Object.defineProperty(String.prototype,"splice",{configurable:!0,writable:!0,value:function(e,t,r){if(null==this)throw new TypeError("String.prototype.splice called on null or undefined");var n=this.length>>>0;if(0===n)return"";var a=Number(e);Number.isSafeInteger(a)?a<0&&(a+=n,a<0&&(a=0)):a=0,a>n&&(a=n);var i=Number(t);(!Number.isSafeInteger(i)||i<0)&&(i=0);var o=this.slice(0,a);return"undefined"!=typeof r&&(o+=r),a+i<n&&(o+=this.slice(a+i)),o}}),Object.defineProperty(String.prototype,"splitOrEmpty",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.splitOrEmpty called on null or undefined");return""===String(this)?[]:String.prototype.split.apply(this,arguments)}}),Object.defineProperty(String.prototype,"toLocaleUpperFirst",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.toLocaleUpperFirst called on null or undefined");var e=String(this),t=_getCodePointStartAndEnd(e,0),r=t.char,n=t.end;return n===-1?"":r.toLocaleUpperCase()+e.slice(n+1)}}),Object.defineProperty(String.prototype,"toUpperFirst",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.toUpperFirst called on null or undefined");var e=String(this),t=_getCodePointStartAndEnd(e,0),r=t.char,n=t.end;return n===-1?"":r.toUpperCase()+e.slice(n+1)}}),Object.defineProperty(Date.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:date)",this.toISOString()]}}),Object.defineProperty(Function.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:eval)","("+this.toString()+")"]}}),Object.defineProperty(Map.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:map)",[].concat(_toConsumableArray(this))]}}),Object.defineProperty(RegExp.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:eval)",this.toString()]}}),Object.defineProperty(Set.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:set)",[].concat(_toConsumableArray(this))]}}),Object.defineProperty(JSON,"reviveWrapper",{configurable:!0,writable:!0,value:function(e,t){if("string"!=typeof e)throw new TypeError("JSON.reviveWrapper code parameter must be a string");return["(revive:eval)",[e,t]]}}),Object.defineProperty(JSON,"_real_parse",{value:JSON.parse}),Object.defineProperty(JSON,"parse",{configurable:!0,writable:!0,value:function value(text,reviver){return JSON._real_parse(text,function(key,val){var value=val;if(Array.isArray(value)&&2===value.length)switch(value[0]){case"(revive:set)":value=new Set(value[1]);break;case"(revive:map)":value=new Map(value[1]);break;case"(revive:date)":value=new Date(value[1]);break;case"(revive:eval)":try{if(Array.isArray(value[1])){var $ReviveData$=value[1][1];value=eval(value[1][0])}else value=eval(value[1])}catch(e){}}else if("string"==typeof value&&"@@revive@@"===value.slice(0,10))try{value=eval(value.slice(10))}catch(e){}if("function"==typeof reviver)try{value=reviver(key,value)}catch(e){}return value})}}),Object.defineProperty(Array.prototype,"contains",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.contains called on null or undefined");return Array.prototype.includes.apply(this,arguments)}}),Object.defineProperty(Array.prototype,"containsAll",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.containsAll called on null or undefined");return Array.prototype.includesAll.apply(this,arguments)}}),Object.defineProperty(Array.prototype,"containsAny",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.containsAny called on null or undefined");return Array.prototype.includesAny.apply(this,arguments)}}),Object.defineProperty(String.prototype,"readBracketedList",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.readBracketedList called on null or undefined");for(var e=new RegExp("(?:\\[\\[((?:\\s|\\S)*?)\\]\\])|([^\"'\\s]\\S*)","gm"),t=[],r=void 0;null!==(r=e.exec(this));)r[1]?t.push(r[1]):r[2]&&t.push(r[2]);return t}})}();var Browser=function(){var e=navigator.userAgent.toLowerCase(),t=e.includes("windows phone"),r=Object.freeze({Android:!t&&e.includes("android"),BlackBerry:/blackberry|bb10/.test(e),iOS:!t&&/ip(?:hone|ad|od)/.test(e),Windows:t||e.includes("iemobile"),any:function(){return r.Android||r.BlackBerry||r.iOS||r.Windows}}),n=!r.Windows&&!/khtml|trident|edge/.test(e)&&e.includes("gecko"),a=!e.includes("opera")&&/msie|trident/.test(e),i=a?function(){var t=/(?:msie\s+|rv:)(\d+\.\d)/.exec(e);return t?Number(t[1]):0}():null,o=e.includes("opera")||e.includes(" opr/"),s=o?function(){var t=new RegExp((/khtml|chrome/.test(e)?"opr":"version")+"\\/(\\d+\\.\\d+)"),r=t.exec(e);return r?Number(r[1]):0}():null;return Object.freeze({userAgent:e,isMobile:r,isGecko:n,isIE:a,ieVersion:i,isOpera:o,operaVersion:s})}(),Has=function(){var e=function(){try{return"function"==typeof document.createElement("audio").canPlayType}catch(e){}return!1}(),t=function(){try{return"Blob"in window&&"File"in window&&"FileList"in window&&"FileReader"in window&&!Browser.isMobile.any()&&(!Browser.isOpera||Browser.operaVersion>=15)}catch(e){}return!1}(),r=function(){try{return"geolocation"in navigator&&"function"==typeof navigator.geolocation.getCurrentPosition&&"function"==typeof navigator.geolocation.watchPosition}catch(e){}return!1}(),n=function(){try{return"MutationObserver"in window&&"function"==typeof window.MutationObserver}catch(e){}return!1}(),a=function(){try{return"performance"in window&&"function"==typeof window.performance.now}catch(e){}return!1}();return Object.freeze({audio:e,fileAPI:t,geolocation:r,mutationObserver:n,performance:a})}(),_ref3=function(){function e(t){if("object"!==("undefined"==typeof t?"undefined":_typeof(t))||null==t)return t;if("function"==typeof t.clone)return t.clone(!0);if(t.nodeType&&"function"==typeof t.cloneNode)return t.cloneNode(!0);var r=void 0;return Array.isArray(t)?r=[]:t instanceof Date?r=new Date(t.getTime()):t instanceof Map?(r=new Map,t.forEach(function(t,n){r.set(n,e(t))})):t instanceof RegExp?r=new RegExp(t):t instanceof Set?(r=new Set,t.forEach(function(t){r.add(e(t))})):r=Object.create(Object.getPrototypeOf(t)),Object.keys(t).forEach(function(n){return r[n]=e(t[n])}),r}function t(e){for(var t=document.createDocumentFragment(),r=document.createElement("p"),n=void 0;null!==(n=e.firstChild);){if(n.nodeType===Node.ELEMENT_NODE){var a=n.nodeName.toUpperCase();switch(a){case"BR":if(null!==n.nextSibling&&n.nextSibling.nodeType===Node.ELEMENT_NODE&&"BR"===n.nextSibling.nodeName.toUpperCase()){e.removeChild(n.nextSibling),e.removeChild(n),t.appendChild(r),r=document.createElement("p");continue}if(!r.hasChildNodes()){e.removeChild(n);continue}break;case"ADDRESS":case"ARTICLE":case"ASIDE":case"BLOCKQUOTE":case"CENTER":case"DIV":case"DL":case"FIGURE":case"FOOTER":case"FORM":case"H1":case"H2":case"H3":case"H4":case"H5":case"H6":case"HEADER":case"HR":case"MAIN":case"NAV":case"OL":case"P":case"PRE":case"SECTION":case"TABLE":case"UL":r.hasChildNodes()&&(t.appendChild(r),r=document.createElement("p")),t.appendChild(n);continue}}r.appendChild(n)}r.hasChildNodes()&&t.appendChild(r),e.appendChild(t)}function r(){try{return document.activeElement||null}catch(e){return null}}function n(e,t,r){var n="object"===("undefined"==typeof e?"undefined":_typeof(e))?e:document.getElementById(e);if(null==n)return null;var a=Array.isArray(t)?t:[t];jQuery(n).empty();for(var i=0,o=a.length;i<o;++i)if(Story.has(a[i]))return new Wikifier(n,Story.get(a[i]).processText().trim()),n;if(null!=r){var s=String(r).trim();""!==s&&new Wikifier(n,s)}return n}function a(e,t,r){return jQuery(document.createElement("span")).addClass("error").attr("title",r).text(L10n.get("errorTitle")+": "+(t||"unknown error")).appendTo(e),!1}function i(e,t){var r=i;switch("undefined"==typeof e?"undefined":_typeof(e)){case"number":if(Number.isNaN(e))return t;break;case"object":if(null===e)return t;if(Array.isArray(e))return e.map(function(e){return r(e,t)}).join(", ");if(e instanceof Set)return[].concat(_toConsumableArray(e)).map(function(e){return r(e,t)}).join(", ");if(e instanceof Map){var n=[].concat(_toConsumableArray(e)).map(function(e){return r(e[0],t)+" ⇒ "+r(e[1],t)}).join("; ");return"( "+n+" )"}return e instanceof Date?e.toLocaleString():"function"==typeof e.toString?e.toString():Object.prototype.toString.call(e);case"function":case"undefined":return t}return String(e)}return Object.freeze(Object.defineProperties({},{clone:{value:e},convertBreaks:{value:t},safeActiveElement:{value:r},setPageElement:{value:n},throwError:{value:a},toStringOrDefault:{value:i}}))}(),clone=_ref3.clone,convertBreaks=_ref3.convertBreaks,safeActiveElement=_ref3.safeActiveElement,setPageElement=_ref3.setPageElement,throwError=_ref3.throwError,toStringOrDefault=_ref3.toStringOrDefault;!function(){function e(e){13!==e.which&&32!==e.which||(e.preventDefault(),jQuery(safeActiveElement()||this).trigger("click"))}function t(e){return function(){var t=jQuery(this);t.is("[aria-pressed]")&&t.attr("aria-pressed","true"===t.attr("aria-pressed")?"false":"true"),e.apply(this,arguments)}}function r(e){return t(function(){jQuery(this).off(".aria-clickable").removeAttr("tabindex aria-controls aria-pressed").not("a,button").removeAttr("role").end().filter("button").prop("disabled",!0),e.apply(this,arguments)})}jQuery.fn.extend({ariaClick:function(n,a){if(0===this.length||0===arguments.length)return this;var i=n,o=a;return null==o&&(o=i,i=undefined),i=jQuery.extend({namespace:undefined,one:!1,selector:undefined,data:undefined,controls:undefined,pressed:undefined,label:undefined},i),"string"!=typeof i.namespace?i.namespace="":"."!==i.namespace[0]&&(i.namespace="."+i.namespace),"boolean"==typeof i.pressed&&(i.pressed=i.pressed?"true":"false"),this.filter("button").prop("type","button"),this.not("a,button").attr("role","button"),this.attr("tabindex",0),null!=i.controls&&this.attr("aria-controls",i.controls),null!=i.pressed&&this.attr("aria-pressed",i.pressed),null!=i.label&&this.attr({"aria-label":i.label,title:i.label}),this.not("button").on("keypress.aria-clickable"+i.namespace,i.selector,e),this.on("click.aria-clickable"+i.namespace,i.selector,i.data,i.one?r(o):t(o)),this}})}(),function(){jQuery.extend({wikiWithOptions:function(e){for(var t=arguments.length,r=Array(t>1?t-1:0),n=1;n<t;n++)r[n-1]=arguments[n];if(0!==r.length){var a=document.createDocumentFragment();r.forEach(function(t){return new Wikifier(a,t,e)});var i=[].concat(_toConsumableArray(a.querySelectorAll(".error"))).map(function(e){return e.textContent.replace(/^(?:(?:Uncaught\s+)?Error:\s+)+/,"")});if(i.length>0)throw new Error(i.join("; "))}},wiki:function(){for(var e=arguments.length,t=Array(e),r=0;r<e;r++)t[r]=arguments[r];this.wikiWithOptions.apply(this,[undefined].concat(t))}}),jQuery.fn.extend({wikiWithOptions:function(e){for(var t=arguments.length,r=Array(t>1?t-1:0),n=1;n<t;n++)r[n-1]=arguments[n];if(0===this.length||0===r.length)return this;var a=document.createDocumentFragment();return r.forEach(function(t){return new Wikifier(a,t,e)}),this.append(a),this},wiki:function(){for(var e=arguments.length,t=Array(e),r=0;r<e;r++)t[r]=arguments[r];return this.wikiWithOptions.apply(this,[undefined].concat(t))}})}();var Util=function(){function e(e){return Object.freeze(Object.assign(Object.create(null),e))}function t(e){return Object.prototype.toString.call(e).slice(8,-1)}function r(e){var t=void 0;switch("undefined"==typeof e?"undefined":_typeof(e)){case"number":t=e;break;case"string":t=Number(e);break;default:return!1}return!Number.isNaN(t)&&Number.isFinite(t)}function n(e){return"boolean"==typeof e||"string"==typeof e&&("true"===e||"false"===e)}function a(e){return String(e).trim().replace(/[^\w\s\u2013\u2014-]+/g,"").replace(/[_\s\u2013\u2014-]+/g,"-").toLocaleLowerCase()}function i(e){if(null==e)return"";var t=String(e);return t&&h.test(t)?t.replace(p,function(e){return g[e]}):t}function o(e){if(null==e)return"";var t=String(e);return t&&y.test(t)?t.replace(m,function(e){return v[e.toLowerCase()]}):t}function s(e,t){var r=String(e),n=Math.trunc(t),a=r.charCodeAt(n);if(Number.isNaN(a))return{char:"",start:-1,end:-1};var i={char:r.charAt(n),start:n,end:n};if(a<55296||a>57343)return i;if(a>=55296&&a<=56319){var o=n+1;if(o>=r.length)return i;var s=r.charCodeAt(o);return s<56320||s>57343?i:(i.char=i.char+r.charAt(o),i.end=o,i)}if(0===n)return i;var u=n-1,l=r.charCodeAt(u);return l<55296||l>56319?i:(i.char=r.charAt(u)+i.char,i.start=u,i)}function u(){return(Has.performance?performance:Date).now()}function l(e){var t=/^([+-]?(?:\d*\.)?\d+)([Mm]?[Ss])$/,r=t.exec(String(e));if(null===r)throw new SyntaxError('invalid time value syntax: "'+e+'"');var n=Number(r[1]);if(/^[Ss]$/.test(r[2])&&(n*=1e3),Number.isNaN(n)||!Number.isFinite(n))throw new RangeError('invalid time value: "'+e+'"');return n}function c(e){if("number"!=typeof e||Number.isNaN(e)||!Number.isFinite(e)){var t=void 0;switch("undefined"==typeof e?"undefined":_typeof(e)){case"string":t='"'+e+'"';break;case"number":t=String(e);break;default:t=Object.prototype.toString.call(e)}throw new Error("invalid milliseconds: "+t)}return e+"ms"}function d(e){if(!e.includes("-"))switch(e){case"bgcolor":return"backgroundColor";case"float":return"cssFloat";default:return e}var t="-ms-"===e.slice(0,4)?e.slice(1):e;return t.split("-").map(function(e,t){return 0===t?e:e.toUpperFirst()}).join("")}function f(e){var t=document.createElement("a"),r=Object.create(null);t.href=e,t.search&&t.search.replace(/^\?/,"").splitOrEmpty(/(?:&(?:amp;)?|;)/).forEach(function(e){var t=e.split("="),n=_slicedToArray(t,2),a=n[0],i=n[1];r[a]=i});var n=t.host&&"/"!==t.pathname[0]?"/"+t.pathname:t.pathname;return{href:t.href,protocol:t.protocol,host:t.host,hostname:t.hostname,port:t.port,path:""+n+t.search,pathname:n,query:t.search,search:t.search,queries:r,searches:r,hash:t.hash}}var p=/[&<>"'`]/g,h=new RegExp(p.source),g=Object.freeze({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;","`":"&#96;"}),m=/&(?:amp|#38|#x26|lt|#60|#x3c|gt|#62|#x3e|quot|#34|#x22|apos|#39|#x27|#96|#x60);/gi,y=new RegExp(m.source,"i"),v=Object.freeze({"&amp;":"&","&#38;":"&","&#x26;":"&","&lt;":"<","&#60;":"<","&#x3c;":"<","&gt;":">","&#62;":">","&#x3e;":">","&quot;":'"',"&#34;":'"',"&#x22;":'"',"&apos;":"'","&#39;":"'","&#x27;":"'","&#96;":"`","&#x60;":"`"});return Object.freeze(Object.defineProperties({},{toEnum:{value:e},toStringTag:{value:t},isNumeric:{value:r},isBoolean:{value:n},slugify:{value:a},escape:{value:i},unescape:{value:o},charAndPosAt:{value:s},fromCssTime:{value:l},toCssTime:{value:c},fromCssProperty:{value:d},parseUrl:{value:f},now:{value:u},random:{value:Math.random},entityEncode:{value:i},entityDecode:{value:o},evalExpression:{value:function(){return Scripting.evalJavaScript.apply(Scripting,arguments)}},evalStatements:{value:function(){return Scripting.evalJavaScript.apply(Scripting,arguments)}}}))}(),SimpleAudio=function(){function e(){return g}function t(e){g=!!e,l("mute",g)}function r(){return p}function n(e){p=Math.clamp(e,.2,5),l("rate",p)}function a(){return h}function i(e){h=Math.clamp(e,0,1),l("volume",h)}function o(){l("stop")}function s(e,t){if("function"!=typeof t)throw new Error("callback parameter must be a function");f.set(e,t)}function u(e){f.delete(e)}function l(e,t){f.forEach(function(r){return r(e,t)})}function c(){for(var e=arguments.length,t=Array(e),r=0;r<e;r++)t[r]=arguments[r];return new(Function.prototype.bind.apply(m,[null].concat(t)))}function d(){for(var e=arguments.length,t=Array(e),r=0;r<e;r++)t[r]=arguments[r];return new(Function.prototype.bind.apply(y,[null].concat(t)))}var f=new Map,p=1,h=1,g=!1,m=function(){function e(t){if(_classCallCheck(this,e),Array.isArray(t))this._create(t);else{if(!(t instanceof e))throw new Error("sources parameter must be an array of either URLs or source objects");this._copy(t)}}return _createClass(e,[{key:"_create",value:function(t){if(!Array.isArray(t)||0===t.length)throw new Error("sources parameter must be an array of either URLs or source objects");var r=/^data:\s*audio\/([^;,]+)\s*[;,]/i,n=/\.([^.\/\\]+)$/,a=e.getType,i=[],o=document.createElement("audio");if(t.forEach(function(e){var t=null;switch("undefined"==typeof e?"undefined":_typeof(e)){case"string":var s=void 0;if("data:"===e.slice(0,5)){if(s=r.exec(e),null===s)throw new Error("source data URI missing media type")}else if(s=n.exec(Util.parseUrl(e).pathname),null===s)throw new Error("source URL missing file extension");var u=a(s[1]);null!==u&&(t={src:e,type:u});break;case"object":if(null===e)throw new Error("source object cannot be null");if(!e.hasOwnProperty("src"))throw new Error('source object missing required "src" property');
