@@ -234,12 +234,12 @@ var main = function main() {
     "WC": FOLDER_PLACE + "WC.jpg",
     "Livingroom": FOLDER_PLACE + "Livingroom.jpg",
     "Garden": FOLDER_PLACE + "Garden.jpg",
-    "Naxxremis" : FOLDER_CHARACTER + "Naxxremis/Naxxremis.jpg",
-    "fairyIcon" : FOLDER_CHARACTER + "Lily/fairy_icon.jpg",
-    "collarIcon" : FOLDER_OBJECT + "collar_icon.jpg",
-    "Town" : FOLDER_PLACE+ "Town.jpg", 
-    "Countryside_Road" : FOLDER_PLACE + "Countryside_Road.jpg",
-    "Bathroom_Door" : FOLDER_PLACE + "Bathroom_Door.jpg"
+    "Naxxremis": FOLDER_CHARACTER + "Naxxremis/Naxxremis.jpg",
+    "fairyIcon": FOLDER_CHARACTER + "Lily/fairy_icon.jpg",
+    "collarIcon": FOLDER_OBJECT + "collar_icon.jpg",
+    "Town": FOLDER_PLACE + "Town.jpg",
+    "Countryside_Road": FOLDER_PLACE + "Countryside_Road.jpg",
+    "Bathroom_Door": FOLDER_PLACE + "Bathroom_Door.jpg"
 
 
   };
@@ -257,8 +257,8 @@ var main = function main() {
       "find_dildo": false,
       "find_cocain": false
     },
-    "stage":{
-      "naxxremis" : 0
+    "stage": {
+      "naxxremis": 0
     },
     "somethingToSay": ["LoicSay_helpCook", "LoicSay_findAJob"]
   };
@@ -290,23 +290,64 @@ var main = function main() {
       "socks": "blank",
       "shoes": "blank"
     },
-    "event" :{
-      "masturbated" : false,
-      "lookForAJob" : false,
-      "lookingForJob" : false
+    "event": {
+      "masturbated": false,
+      "lookForAJob": false,
+      "lookingForJob": false
     },
-    "stage":{
+    "stage": {
       "townTour": 0
     },
-    "work":{
-      "waitresse" : {
-        "stage" : 0
-      },
-      "loicMaid" : {
-        "stage" : 0
+    "work": {
+      "waitress": {
+        "stage": 0,
+        "absent": 0,
+        "late": 0,
+        "punish": false,
+        "punishStage": 0,
+        "planing": {
+          "noon": {
+            "activated": false,
+            "worked": true,
+            "workdayList": [1, 2, 3, 4, 5],
+            "workHour": {
+              "begin": 11,
+              "end": 14
+            }
+          },
+          "evening": {
+            "activated": false,
+            "worked": true,
+            "workdayList": [2, 4],
+            "workHour": {
+              "begin": 19,
+              "end": 21
+            }
+          }
+        }
       }
 
-    }
+    },
+    "loicMaid": {
+      "stage": 0,
+      "worked": true,
+      "absent": 0,
+      "late": 0,
+      "punish": false,
+      "punishStage": 0,
+      "planing": {
+        "evening": {
+          "activated": false,
+          "worked": true,
+          "workdayList": [1, 3, 5],
+          "workHour": {
+            "begin": 19,
+            "end": 21
+          }
+        }
+      }
+    },
+    "workList": []
   };
   window.clock = {
     "day": 6,
@@ -314,7 +355,7 @@ var main = function main() {
     "month": 6,
     "hour": 17,
     "minute": 0,
-    "weekNumber" : 0
+    "weekNumber": 0
   };
   window.sideBar = {
     "visibility": "hidden"
@@ -368,6 +409,14 @@ var main = function main() {
     addTF(tf, twineVars().player);
   };
 
+  window.addWork = function (string) {
+    addWork(string, twineVars.player)
+  };
+
+  window.canWorkAs(string) = function (string){
+    canWorkAs(string,twineVars.clock);
+  }
+
   $(document).on(':passagerender', function () {
     window.updateWindowClothing();
     clockWindow.innerHTML = clockToString(twineVars().clock);
@@ -381,11 +430,16 @@ var twineVars = function twineVars() {
 };
 
 var toSpeak = function toSpeak(character) {
-  console.log("character",character)
+  console.log("character", character)
   var string = character.somethingToSay[0];
   character.somethingToSay.splice(0, 1);
   return string;
-}; //***************************************************************************************************************************************/
+};
+
+var addWork = function addwork(string, character) {
+  character.workList.push(string)
+};
+//***************************************************************************************************************************************/
 //******************************************************Event****************************************************************************/
 
 
@@ -408,20 +462,33 @@ var eventCondList = {
   "breakFastTime": function breakFastTime() {
     return twineVars().clock.hour >= 6 && twineVars().clock.hour <= 9;
   },
-  "LoicSomthingToSay": function() {
+  "LoicSomthingToSay": function () {
     return twineVars().loic.somethingToSay.length != 0;
   },
   "PlayerHaveToSetTable": function PlayerHaveToSetTable() {
     return twineVars().loic.somethingToSay.length != 0;
   },
-  "friday" : function friday() {
+  "friday": function friday() {
     return twineVars().clock.daysWeek == 4;
-  }
+  },
 };
 
 var event = function event(string) {
   return eventCondList[string]();
-}; //***************************************************************************************************************************************/
+};
+
+var canWorkAs = function (string,clock) {
+  if(!twineVars().player.workList.include(string)) return false 
+  var toTestWork = twineVars().player.work[string];
+
+  for (var planing in toTestWork.planing) {
+    var planing = toTestWork.planing[planing];
+    if(planing.dayList.include(clock.day) && ((planing.begin -2) <= clock.hour && clock.hour <= planing.end )) return true;
+  }
+  return false;
+};
+
+//***************************************************************************************************************************************/
 //************************************************TF*************************************************************************************/
 
 
@@ -589,6 +656,7 @@ var daysMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 // }
 
 var nextDay = function nextDay(clock) {
+  updatePlayerWork(clock)
   clock.day++;
 
   if (clock.day >= daysMonth[clock.month]) {
@@ -597,11 +665,29 @@ var nextDay = function nextDay(clock) {
   }
 
   clock.daysWeek++;
-  if (clock.daysWeek >= 7){
+  if (clock.daysWeek >= 7) {
     clock.daysWeek = 0;
     clock.weekNumber++;
-  } 
+  }
 };
+
+var updatePlayerWork = function (clock) {
+  var workList = twineVars().player.workList
+
+  for (var workString in workList) {
+    for (var planingString in workList[workString].planing){
+      var planing = workList[workString].planing[planingString]
+      if(planing.activated && planing.dayList.includes(clock.daysWeek)){
+        if(planing.worked == false) {
+          workList[workString].absent++;
+          workList[workString].punish = true;
+        } else {
+          planing.worked = false;
+        }
+      }
+    }
+  }
+}
 
 var timeGoes = function timeGoes(clock, hour, minute) {
   clock.minute += minute;
@@ -1077,7 +1163,7 @@ You take your breackfast.
 &lt;&lt;endif&gt;&gt;
 &lt;&lt;run [timeGoes(0,20)]&gt;&gt;
 &lt;&lt;display Choice_Loic_House&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="Loic_Say" tags="" position="1035,1169" size="100,100">He have somthing to say. &lt;&lt;set $say to toSpeak(&quot;loic&quot;)&gt;&gt;
-&lt;&lt;display $say&gt;&gt;</tw-passagedata><tw-passagedata pid="49" name="LoicSay_helpCook" tags="" position="1081,1028" size="100,100">You discuss and Loic say that now that you are living together, you will have to help him set the table and cook.
+&lt;&lt;display $say&gt;&gt;</tw-passagedata><tw-passagedata pid="49" name="LoicSay_helpCook" tags="" position="1081,1028" size="100,100">&lt;&lt;run addWork(&#39;loicMaid&#39;)&gt;&gt;You discuss and Loic say that now that you are living together, you will have to help him set the table and cook.
 
 You agree to cook in turn. You will cook on Tuesday, Thursday, and Saturday.
 
@@ -1148,7 +1234,7 @@ The enchantment it contains, is of excellent quality, I am assured of it myself.
 
 &lt;&lt;if $player.stage.townTour &lt; 2&gt;&gt; [[visit the city|townTour_Directory][$player.stage.townTour += 1]]&lt;&lt;endif&gt;&gt;
 
-[[return to Loic house|road_town_loicHouse][timeGoes(0,30)]]</tw-passagedata><tw-passagedata pid="67" name="bar-restaurant" tags="" position="3152.199951171875,757" size="100,100">&lt;&lt;if $player.event.waitress&gt;&gt;
+[[return to Loic house|road_town_loicHouse][timeGoes(0,30)]]</tw-passagedata><tw-passagedata pid="67" name="bar-restaurant" tags="" position="3152.199951171875,757" size="100,100">&lt;&lt;if canWorkAs(&#39;waitress&#39;)&gt;&gt;
 [[work|waitress_work]]
 &lt;&lt;elseif $player.event.lookingForJob&gt;&gt; [[ask if they have a job for you|bar_askJob]]
 &lt;&lt;else&gt;&gt;
@@ -1189,7 +1275,7 @@ _You too goodbye
 _OK, thank you. Have a nice day.
 _You too goodbye
 
-&lt;&lt;display town_choice&gt;&gt;</tw-passagedata><tw-passagedata pid="77" name="bar_askJob" tags="" position="3153.199951171875,907" size="100,100">&lt;&lt;set $player.event.lookingForJob = false, $player.event.waitress = true&gt;&gt; _Ho yes indeed, you come just at the right time, we need a new waitress. You are available in the afternoon, from Tuesday to Saturday?
+&lt;&lt;display town_choice&gt;&gt;</tw-passagedata><tw-passagedata pid="77" name="bar_askJob" tags="" position="3153.199951171875,907" size="100,100">&lt;&lt;set $player.event.lookingForJob = false, addWork(&#39;waitress&#39;)&gt;&gt; _Ho yes indeed, you come just at the right time, we need a new waitress. You are available in the afternoon, from Tuesday to Saturday?
 _Yes i am!
 
 &lt;&lt;display bar-restaurant&gt;&gt;</tw-passagedata><tw-passagedata pid="78" name="shoesStore_askJob" tags="" position="3499.199951171875,924" size="100,100">_Sorry but we do not need anyone.
