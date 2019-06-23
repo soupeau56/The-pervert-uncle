@@ -406,16 +406,16 @@ var main = function main() {
   };
 
   window.addTF = function (tf) {
-    addTF(tf, twineVars().player);
+    addTF(tf,twineVars().player);
   };
 
   window.addWork = function (string) {
-    addWork(string, twineVars.player)
+    addWork(string,twineVars().player);
   };
 
-  window.canWorkAs(string) = function (string){
-    canWorkAs(string,twineVars.clock);
-  }
+  window.canWorkAs = function (string){
+    return canWorkAs(string,twineVars().clock);
+  };
 
   $(document).on(':passagerender', function () {
     window.updateWindowClothing();
