@@ -29,7 +29,7 @@ window.src = {
     "Livingroom": FOLDER_PLACE + "Livingroom.jpg",
     "Garden": FOLDER_PLACE + "Garden.jpg",
     "Naxxremis": FOLDER_CHARACTER + "Naxxremis/Naxxremis.jpg",
-    "fairyIcon": FOLDER_OBJECT + "Lily/fairy_icon.jpg",
+    "fairyIcon": FOLDER_OBJECT + "fairy_icon.jpg",
     "collarIcon": FOLDER_OBJECT + "collar_icon.jpg",
     "Town": FOLDER_PLACE + "Town.jpg",
     "Countryside_Road": FOLDER_PLACE + "Countryside_Road.jpg",
@@ -77,6 +77,10 @@ window.importScripts("script/Utility.js", "script/Side-bar.js", "script/Events.j
             Clock.timeSleep(twineVars().clock, hour);
         };
 
+        window.inPeriod = function(hourMin,minuteMin,hourMax,minuteMax){
+            return Clock.inPeriod(twineVars().clock,hourMin,minuteMin,hourMax,minuteMax)
+        }
+
         window.event = function (string) {
             return Events.event(string);
         };
@@ -121,8 +125,11 @@ window.importScripts("script/Utility.js", "script/Side-bar.js", "script/Events.j
             return Wardrobe.twineWardrobe(twineVars().wardrobe, twineVars().clock.daysWeek);
         }
 
-        window.consoleTest = function () {
-            console.log("test");
+        window.consoleTest = function (toTest) {
+            if(toTest)
+               console.log("test",toTest);
+            else   
+                console.log("test");
         }
 
 

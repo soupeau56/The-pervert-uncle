@@ -119,13 +119,25 @@ var Utility = (function () {
             },
             "workList": []
         };
+
+
+        twineVars.lily = {
+            "event": {
+
+            }
+        }
+
+
         twineVars.clock = {
             "day": 6,
             "daysWeek": 0,
             "month": 6,
             "hour": 17,
             "minute": 0,
-            "weekNumber": 0
+            "weekNumber": 0,
+            "dayEvent" : {
+
+            }
         };
         twineVars.sideBar = {
             "visibility": "hidden"

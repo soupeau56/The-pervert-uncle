@@ -18,6 +18,7 @@ var Clock = (function () {
     
     var nextDay = function nextDay(clock) {
         updatePlayerWork(clock)
+        clock.dayEvent = {};
         clock.day++;
     
         if (clock.day >= daysMonth[clock.month]) {
@@ -72,10 +73,23 @@ var Clock = (function () {
         clock.minute = 0;
     };    
 
+    var inPeriod = function(clock,hourMin,minuteMin,hourMax,minuteMax){
+        if(hourMin <= clock.hour <= hourMax){
+            if(clock.hour == hourMin)
+                return minuteMin <= clock.minute 
+            else if(clock.hour == hourMax)
+                return clock.minute <= minuteMax
+            else
+                return true
+        }
+        else return false
+    }
+
     return {
         clockToString,
         timeGoes,
-        timeSleep
+        timeSleep,
+        inPeriod
     }
 
 })();
