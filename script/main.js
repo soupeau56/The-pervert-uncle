@@ -13,7 +13,7 @@ window.src = {
     "nakedWalk2": FOLDER_CHARACTER + "Clara/nakedWalk2.gif",
     "spanking": FOLDER_CHARACTER + "Clara/Spanking.gif",
     "spanking2": FOLDER_CHARACTER + "Clara/Spanking2.gif",
-    "chastity_bely": FOLDER_CHARACTER + "Clara/Chastity_Belt.gif",
+    "chastity_belt": FOLDER_CHARACTER + "Clara/Chastity_Belt.gif",
     "blank": "Image/Outfit/blank.png",
     "open_suitcase": FOLDER_OBJECT + "open_suitecase.jpg",
     "cocaine_bag": FOLDER_OBJECT + "cocaine_bag.jpg",
@@ -29,16 +29,20 @@ window.src = {
     "Livingroom": FOLDER_PLACE + "Livingroom.jpg",
     "Garden": FOLDER_PLACE + "Garden.jpg",
     "Naxxremis": FOLDER_CHARACTER + "Naxxremis/Naxxremis.jpg",
-    "fairyIcon": FOLDER_OBJECT + "fairy_icon.jpg",
-    "collarIcon": FOLDER_OBJECT + "collar_icon.jpg",
+    "fairyIcon": FOLDER_OBJECT + "icon/fairy_icon.jpg",
+    "collarIcon": FOLDER_OBJECT + "icon/collar_icon.jpg",
     "Town": FOLDER_PLACE + "Town.jpg",
     "Countryside_Road": FOLDER_PLACE + "Countryside_Road.jpg",
     "Bathroom_Door": FOLDER_PLACE + "Bathroom_Door.jpg",
-    "Lily" : FOLDER_CHARACTER + "Lily/Lily.jpg"
+    "Lily" : FOLDER_CHARACTER + "Lily/Lily.jpg",
+    "Doctor_Office" : FOLDER_PLACE+"Doctor_Office.jpg",
+    "Doctor_Office_Door" : FOLDER_PLACE+"Doctor_Office_Door.jpg"
 };
 
 window.importScripts("script/Utility.js", "script/Side-bar.js", "script/Events.js", "script/Transforms.js", "script/Clock.js", "script/Wardrobe.js")
     .then(function () {
+
+        var events = new Events();
 
         var menu = document.getElementById('menu');
         var outfitWindow = SideBar.newOutfitWindow(window.src);
@@ -82,11 +86,15 @@ window.importScripts("script/Utility.js", "script/Side-bar.js", "script/Events.j
         }
 
         window.event = function (string) {
-            return Events.event(string);
+            return events.event(string);
         };
 
+        window.action = function(string) {
+            events.action(string,twineVars());
+        }
+
         window.canWorkAs = function (string) {
-            return Events.canWorkAs(string, twineVars().clock);
+            return events.canWorkAs(string, twineVars().clock);
         };
 
         window.playerTF = function () {

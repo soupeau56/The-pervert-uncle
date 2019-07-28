@@ -1,40 +1,43 @@
-var Events = (function (){
+function Events(){
 
     var eventCondList = {
-        "haveTF": function haveTF() {
+        "haveTF": function() {
             return twineVars().player.tf && Object.keys(twineVars().player.tf).length != 0;
         },
-        "punish_masturb": function punish_masturb() {
+        "punish_masturb": function() {
             return twineVars().loic.pref.punish_masturb && twineVars().player.event.masturbated;
         },
-        "loicWorkDay": function loicWorkDay() {
+        "loicWorkDay": function() {
             return twineVars().clock.daysWeek < 5;
         },
-        "loicShower": function loicShower() {
+        "loicShower": function() {
             return twineVars().clock.hour == 6 && twineVars().clock.minute >= 15 && twineVars().clock.minute <= 30;
         },
-        "loicBreakfast": function loicBreakfast() {
+        "loicBreakfast": function() {
             return twineVars().clock.hour == 6 && twineVars().clock.minute >= 0 && twineVars().clock.minute <= 14;
         },
-        "breakFastTime": function breakFastTime() {
+        "breakFastTime": function() {
             return twineVars().clock.hour >= 6 && twineVars().clock.hour <= 9;
         },
         "LoicSomthingToSay": function () {
             return twineVars().loic.somethingToSay.length != 0;
         },
-        "PlayerHaveToSetTable": function PlayerHaveToSetTable() {
+        "PlayerHaveToSetTable": function() {
             return twineVars().loic.somethingToSay.length != 0;
         },
-        "friday": function friday() {
+        "friday": function() {
             return twineVars().clock.daysWeek == 4;
+        },
+        "haveDildo": function() {
+            return twineVars().player.item.dildo >= 1;
         },
     };
     
-    var event = function event(string) {
+    this.event = function(string) {
         return eventCondList[string]();
     };
     
-    var canWorkAs = function (string, clock) {
+    this.canWorkAs = function (string, clock) {
         if (!twineVars().player.workList.includes(string)) return false
         var toTestWork = twineVars().player.work[string];
         console.log("toTestWork", toTestWork)
@@ -55,10 +58,30 @@ var Events = (function (){
         }
         return false;
     };
-    
-    return {
-        event,
-        canWorkAs
+
+
+    var actionList = {
+        "loicTakeDildo" : function(twineVars){
+            twineVars.loic.domination++;
+            twineVars.player.item.dildo--;
+            if (twineVars.loic.item.dildo) twineVars.loic.item.dildo++;
+            else twineVars.loic.item.dildo = 1
+        },
+        "loicSpankPlayer" : function(twineVars){
+            twineVars.loic.domination++;
+            twineVars.player.cry ++;
+        },
+        "loicPutChastyBeltPlayer" : function(twineVars){
+            twineVars.loic.domination++;
+            if(twineVars.player.clothing.chastityBelt)
+                twineVars.player.clothing.chastityBelt = "chastity_belt"
+        }
+
     }
 
-})();
+    this.action = function(string,twineVars){
+        return actionList[string](twineVars);
+    }
+    
+
+}

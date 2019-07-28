@@ -5,17 +5,23 @@ var SideBar = (function () {
         if (sideBar.visibility) {
             outfitWindow.style.visibility = sideBar.visibility;
         } else {
-            outfitWindow.style.visibility = 'hidden'
+            outfitWindow.style.visibility = 'hidden';
         }
         var clothing = twineVars().player.clothing;
         outfitWindow.case1.changeImgTo(clothing.hairstyle);
         outfitWindow.case2.changeImgTo(clothing.headwear);
-        outfitWindow.case3.changeImgTo(clothing.outfit);
-        outfitWindow.case4.changeImgTo(clothing.bra);
-        outfitWindow.case5.changeImgTo(clothing.underwear);
+        if(clothing.bra == "blank")
+            outfitWindow.case3.changeImgTo("breast");
+        else
+            outfitWindow.case3.changeImgTo(clothing.bra);
+        outfitWindow.case4.changeImgTo(clothing.outfit);
+        if(clothing.underwear == "blank")
+            outfitWindow.case5.changeImgTo("vagina");
+        else
+            outfitWindow.case5.changeImgTo(clothing.underwear);
         outfitWindow.case6.changeImgTo(clothing.petticoat);
-        outfitWindow.case7.changeImgTo(clothing.shoes);
-        outfitWindow.case8.changeImgTo(clothing.socks);
+        outfitWindow.case7.changeImgTo(clothing.socks);
+        outfitWindow.case8.changeImgTo(clothing.shoes);
     };
 
 
@@ -25,7 +31,8 @@ var SideBar = (function () {
         ourCase.className = "clothing_image_sidebar_11";
 
         ourCase.changeImgTo = function (string) {
-            if (string == "blank" || !string) ourCase.src = src.blank; else ourCase.src = "Image/Outfit/" + string + ".jpg";
+            if (string == "blank" || !string) ourCase.src = src.blank; 
+            else ourCase.src = "Image/Outfit/" + string + ".jpg";
         };
 
         return ourCase;
@@ -72,6 +79,13 @@ var SideBar = (function () {
         outfitWindow.case8 = case8;
         return outfitWindow;
     };
+
+    var newToolsBox = function(src){
+        var toolsBox = document.createElement('div');
+
+        var choiceTable = document.createElement('table');
+        
+    }
 
     return {
         newOutfitWindow,

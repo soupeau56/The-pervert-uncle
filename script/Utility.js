@@ -23,6 +23,8 @@ var Utility = (function () {
                 "punish_masturb": false,
                 "hot_drink": "herbal tea"
             },
+            "item" : {
+            },
             "event": {
                 "find_dildo": false,
                 "find_cocain": false
@@ -34,6 +36,7 @@ var Utility = (function () {
         };
         twineVars.player = {
             "name": "Clara",
+            "cry" : 0,
             "body": {
                 "hair": {
                     "length": 2,
@@ -60,6 +63,10 @@ var Utility = (function () {
                 "petticoat" : "blank",
                 "shoes": "blank",
                 "socks": "blank"
+            },
+            "item" : {
+                "dildo" : 1,
+                "cocaïne" : 3
             },
             "event": {
                 "masturbated": false,
