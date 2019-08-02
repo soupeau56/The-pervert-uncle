@@ -1,4 +1,5 @@
-function Events(){
+var Events = (function () {
+    var instance = {}
 
     var eventCondList = {
         "haveTF": function() {
@@ -33,11 +34,11 @@ function Events(){
         },
     };
     
-    this.event = function(string) {
+    instance.event = function(string) {
         return eventCondList[string]();
     };
     
-    this.canWorkAs = function (string, clock) {
+    instance.canWorkAs = function (string, clock) {
         if (!twineVars().player.workList.includes(string)) return false
         var toTestWork = twineVars().player.work[string];
         console.log("toTestWork", toTestWork)
@@ -78,9 +79,13 @@ function Events(){
 
     }
 
-    this.action = function(string,twineVars){
+    instance.action = function(string,twineVars){
         return actionList[string](twineVars);
     }
     
+    return {
+        instance
+    }
 
-}
+})().instance;
+

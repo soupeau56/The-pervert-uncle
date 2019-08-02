@@ -42,7 +42,7 @@ window.src = {
 window.importScripts("script/Utility.js", "script/Side-bar.js", "script/Events.js", "script/Transforms.js", "script/Clock.js", "script/Wardrobe.js")
     .then(function () {
 
-        console.log("SideBar",SideBar)
+        console.log("Events",Events)
         var menu = document.getElementById('menu');
         var outfitWindow = SideBar.newOutfitWindow(window.src);
         var clockWindow = document.createElement('span');

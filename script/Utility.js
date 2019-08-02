@@ -1,17 +1,18 @@
 var Utility = (function () {
+    var instance = {}
 
-    this.toSpeak = function(character) {
+    instance.toSpeak = function(character) {
         var string = character.somethingToSay[0];
         character.somethingToSay.splice(0, 1);
         return string;
     };
 
-    this.addWork = function(string, character) {
+    instance.addWork = function(string, character) {
         character.workList.push(string)
     };
 
 
-    this.firstLoad = function (twineVars) {
+    instance.firstLoad = function (twineVars) {
         
         twineVars.loic = {
             "name": "Loic",
@@ -162,9 +163,7 @@ var Utility = (function () {
 
     }
     return {
-        toSpeak,
-        addWork,
-        firstLoad
+        instance
     }
 
-})();
+})().instance;

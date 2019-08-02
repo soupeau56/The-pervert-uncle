@@ -1,5 +1,6 @@
 var Transforms = (function(){
-    
+    var instance = {}
+
     var tfLimit = {
         "size": {
             "min": 100,
@@ -39,7 +40,7 @@ var Transforms = (function(){
     
     };
     
-    var addTF = function addTF(newTF, player) {
+    instance.addTF = function addTF(newTF, player) {
         if (player.tf && Object.keys(player.tf).length != 0) {
             newTF = getNonNullTF(newTF);
     
@@ -63,7 +64,7 @@ var Transforms = (function(){
         return tf;
     };
     
-    var playerTF = function playerTF(player) {
+    instance.playerTF = function playerTF(player) {
         var newTF = player.tf;
         if (newTF.size) sizeTF(player);
         if (newTF.breast) breastTF(player);
@@ -146,16 +147,14 @@ var Transforms = (function(){
         }
     };
     
-    var pushTF = function pushTF(claraTF, newTF) {
+    instance.pushTF = function pushTF(claraTF, newTF) {
         for (var _tf in newTF) {
             claraTF[_tf] += newTF[_tf];
         }
     };
 
     return {
-        addTF,
-        playerTF,
-        pushTF
+        instance
     }
 
-})();
+})().instance;
