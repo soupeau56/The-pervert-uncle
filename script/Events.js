@@ -73,8 +73,7 @@ function Events(){
         },
         "loicPutChastyBeltPlayer" : function(twineVars){
             twineVars.loic.domination++;
-            if(twineVars.player.clothing.chastityBelt)
-                twineVars.player.clothing.chastityBelt = "chastity_belt"
+            twineVars.player.clothing.chastityBelt = "chastity_belt";
         }
 
     }

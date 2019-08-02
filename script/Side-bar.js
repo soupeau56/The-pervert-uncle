@@ -1,44 +1,23 @@
 
 var SideBar = (function () {
-    
-    var updateWindowClothing = function updateWindowClothing(outfitWindow, sideBar) {
-        if (sideBar.visibility) {
-            outfitWindow.style.visibility = sideBar.visibility;
-        } else {
-            outfitWindow.style.visibility = 'hidden';
-        }
-        var clothing = twineVars().player.clothing;
-        outfitWindow.case1.changeImgTo(clothing.hairstyle);
-        outfitWindow.case2.changeImgTo(clothing.headwear);
-        if(clothing.bra == "blank")
-            outfitWindow.case3.changeImgTo("breast");
-        else
-            outfitWindow.case3.changeImgTo(clothing.bra);
-        outfitWindow.case4.changeImgTo(clothing.outfit);
-        if(clothing.underwear == "blank")
-            outfitWindow.case5.changeImgTo("vagina");
-        else
-            outfitWindow.case5.changeImgTo(clothing.underwear);
-        outfitWindow.case6.changeImgTo(clothing.petticoat);
-        outfitWindow.case7.changeImgTo(clothing.socks);
-        outfitWindow.case8.changeImgTo(clothing.shoes);
-    };
+    var instance = {}
+        
 
-
-    var newCase = function newCase(src) {
+    var newCase = function (src) {
         var ourCase = document.createElement('img');
         ourCase.src = src.blank;
         ourCase.className = "clothing_image_sidebar_11";
 
         ourCase.changeImgTo = function (string) {
-            if (string == "blank" || !string) ourCase.src = src.blank; 
+            if (string == "blank" || !string) ourCase.src = src.blank;
             else ourCase.src = "Image/Outfit/" + string + ".jpg";
         };
 
         return ourCase;
     };
 
-    var newOutfitWindow = function newOutfitWindow(src) {
+
+    instance.newOutfitWindow = function (src) {
         var outfitWindow = document.createElement('div');
         outfitWindow.style.visibility = 'hidden'
         outfitWindow.className = "outfit_window";
@@ -80,16 +59,39 @@ var SideBar = (function () {
         return outfitWindow;
     };
 
-    var newToolsBox = function(src){
+    instance.updateWindowClothing = function (outfitWindow, sideBar) {
+        if (sideBar.visibility) {
+            outfitWindow.style.visibility = sideBar.visibility;
+        } else {
+            outfitWindow.style.visibility = 'hidden';
+        }
+        var clothing = twineVars().player.clothing;
+        if (clothing.bra == "blank") clothing.bra = "breast";
+        if (clothing.underwear == "blank") {
+            if (clothing.chastityBelt) clothing.underwear = clothing.chastityBelt;
+            else  clothing.underwear = "vagina";
+        }
+
+        outfitWindow.case1.changeImgTo(clothing.hairstyle);
+        outfitWindow.case2.changeImgTo(clothing.headwear);
+        outfitWindow.case3.changeImgTo(clothing.bra);
+        outfitWindow.case4.changeImgTo(clothing.outfit);
+        outfitWindow.case5.changeImgTo(clothing.underwear);
+        outfitWindow.case6.changeImgTo(clothing.petticoat);
+        outfitWindow.case7.changeImgTo(clothing.socks);
+        outfitWindow.case8.changeImgTo(clothing.shoes);
+    };
+
+
+    var newToolsBox = function (src) {
         var toolsBox = document.createElement('div');
 
         var choiceTable = document.createElement('table');
-        
+
     }
 
     return {
-        newOutfitWindow,
-        updateWindowClothing
+        instance
     }
 
-})();
+})().instance;

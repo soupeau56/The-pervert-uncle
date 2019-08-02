@@ -11,8 +11,8 @@ window.src = {
     "blowjob3": FOLDER_CHARACTER + "Clara/blowjob3.gif",
     "nakedWalk": FOLDER_CHARACTER + "Clara/nakedWalk.gif",
     "nakedWalk2": FOLDER_CHARACTER + "Clara/nakedWalk2.gif",
-    "spanking": FOLDER_CHARACTER + "Clara/Spanking.gif",
-    "spanking2": FOLDER_CHARACTER + "Clara/Spanking2.gif",
+    "spanking": FOLDER_CHARACTER + "Clara/spanking.gif",
+    "spanking2": FOLDER_CHARACTER + "Clara/spanking2.gif",
     "chastity_belt": FOLDER_CHARACTER + "Clara/Chastity_Belt.gif",
     "blank": "Image/Outfit/blank.png",
     "open_suitcase": FOLDER_OBJECT + "open_suitecase.jpg",
@@ -42,8 +42,7 @@ window.src = {
 window.importScripts("script/Utility.js", "script/Side-bar.js", "script/Events.js", "script/Transforms.js", "script/Clock.js", "script/Wardrobe.js")
     .then(function () {
 
-        var events = new Events();
-
+        console.log("SideBar",SideBar)
         var menu = document.getElementById('menu');
         var outfitWindow = SideBar.newOutfitWindow(window.src);
         var clockWindow = document.createElement('span');
@@ -86,15 +85,15 @@ window.importScripts("script/Utility.js", "script/Side-bar.js", "script/Events.j
         }
 
         window.event = function (string) {
-            return events.event(string);
+            return Events.event(string);
         };
 
         window.action = function(string) {
-            events.action(string,twineVars());
+            Events.action(string,twineVars());
         }
 
         window.canWorkAs = function (string) {
-            return events.canWorkAs(string, twineVars().clock);
+            return Events.canWorkAs(string, twineVars().clock);
         };
 
         window.playerTF = function () {
